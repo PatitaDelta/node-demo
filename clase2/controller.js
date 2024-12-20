@@ -11,12 +11,12 @@ function HomeController (request, response) {
           response.setHeader('Content-Type', 'application/json; charset=utf-8')
           return response.end(JSON.stringify(data))
         case '/imagen':
-          return fs.readFile('../assets/img-test.png', (err, file) => {
+          return fs.readFile('./assets/img-test.png', (err, file) => {
             if (err) {
               response.statusCode = 500
-              response.end('<h1>500 Internal server error</h1>')
+              response.end('<h1>500 Internal server error </h1>')
             }
-            response.setHeader('Content-Type', 'imagen/png')
+            response.setHeader('Content-Type', 'image/png')
             return response.end(file)
           })
         default:
