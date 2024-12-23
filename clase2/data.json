@@ -55,12 +55,8 @@
                 "barcode": "9164035109868",
                 "qrCode": "..."
             },
-            "thumbnail": "...",
-            "images": [
-                "...",
-                "...",
-                "..."
-            ]
+            "thumbnail": "",
+            "images": []
         }
     ],
     "total": 194,

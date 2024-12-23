@@ -26,8 +26,27 @@ function HomeController (request, response) {
       }
     case 'POST':
       switch (url) {
-        case '/':
-          return response.end(null)
+        case '/products': {
+          let body = ''
+
+          // Escuchar el evento data
+          // Echucha por bloques de bites
+          request.on('data', chunk => {
+            body += chunk.toString()
+          })
+
+          // Al terminar ya tendriamos todos los
+          // datos en body
+          request.on('end', () => {
+            const data = JSON.parse(body)
+            // Llamar a una BD para guardar los datos
+            response.writeHead(201, { 'Content-Type': 'application/json; charset=utf-8' })
+
+            data.timestamp = Date.now()
+            response.end(JSON.stringify(data))
+          })
+          break
+        }
         default:
           response.statusCode = 404
           response.setHeader('Content-Type', 'text/html; charset=utf-8')

@@ -1,4 +1,19 @@
+### El Home de la pagina
 GET http://localhost:8080/
-###
+
+### Para ver una imagen
 GET http://localhost:8080/imagen
-###
+
+### Crear un producto
+POST http://localhost:8080/products
+Content-Type: application/json
+
+{
+    "title": "aaa",
+    "description": "adwehjidhkwjeaa",
+    "category": "dwehjidhkwje",
+    "price": 90,
+    "discountPercentage": 10,
+    "rating": 10,
+    "stock": 32
+}
