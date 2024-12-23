@@ -12,8 +12,6 @@ function initExpressApi () {
   // app.use(express.json())
   // ? Forma manual
   app.use((request, response, next) => {
-    console.log('Middleware')
-
     if (request.method !== 'POST') return next()
     if (request.headers['content-type'] !== 'application/json') return next()
 
