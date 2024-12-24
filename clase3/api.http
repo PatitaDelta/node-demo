@@ -1,0 +1,25 @@
+### Recuperar todas las película
+GET http://localhost:8080/movies
+
+### Recuperar película por id
+GET http://localhost:8080/movies/1
+
+### Recuperar películas por genero
+GET http://localhost:8080/movies?genero=Drama
+
+### Crear una pelicula
+POST http://localhost:8080/movies
+Content-Type: application/json
+
+{
+    "title": "Test",
+    "genres": [
+      "crime",
+      "drama",
+      "thriller"
+    ],
+    "release_year": 2004,
+    "duration": 120,
+    "rating": 5,
+    "description": "aaaa" 
+}
