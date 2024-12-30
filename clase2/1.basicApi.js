@@ -1,8 +1,8 @@
-const http = require('node:http')
-const { HomeController } = require('./2.controller')
-const desiredPort = process.env.PORT ?? 8080
+function initBasicApi () {
+  const http = require('node:http')
+  const { HomeController } = require('./2.controller')
+  const desiredPort = process.env.PORT ?? 8080
 
-export function initBasicApi () {
   http
     .createServer((req, res) => {
       console.log('REQUEST RECIVED', req.url)

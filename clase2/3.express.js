@@ -1,8 +1,8 @@
-const express = require('express')
-const fs = require('node:fs')
-const app = express()
-
 function initExpressApi () {
+  const express = require('express')
+  const fs = require('node:fs')
+  const app = express()
+
   const PORT = process.env.PORT ?? 8080
 
   app.disable('x-powered-by')

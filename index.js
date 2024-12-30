@@ -7,9 +7,13 @@
 // initBasicApi()
 
 // ? Inicio de Express
-const { initExpressApi } = require('./clase2/3.express')
-initExpressApi()
+// const { initExpressApi } = require('./clase2/3.express')
+// initExpressApi()
 
 // **********************************************
 // ** CLASE 3  **********************************
 // **********************************************
+
+// ? Api REST
+const { initApiRest } = require('./clase3/1.appRest')
+initApiRest()

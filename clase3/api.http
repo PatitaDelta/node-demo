@@ -12,14 +12,28 @@ POST http://localhost:8080/movies
 Content-Type: application/json
 
 {
-    "title": "Test",
-    "genres": [
-      "crime",
-      "drama",
-      "thriller"
-    ],
-    "release_year": 2004,
-    "duration": 120,
-    "rating": 5,
-    "description": "aaaa" 
+  "title": "Test",
+  "genres": [
+    "crime",
+    "drama",
+    "thriller"
+  ],
+  "release_year": 2004,
+  "duration": 120,
+  "rating": 5,
+  "description": "aaaa" 
 }
+
+### Intento de crear una pelicula
+POST http://localhost:8080/movies
+Content-Type: application/json
+
+{
+  "title": "Test",
+  "release_year": 2004,
+  "duration": 2.3,
+  "description": "aaaa"
+}
+
+
+## Actualizar una pelicula
