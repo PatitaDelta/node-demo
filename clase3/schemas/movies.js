@@ -6,12 +6,6 @@ const movieSchema = zod.object({
       invalid_type_error: 'Movie title must be a string',
       required_error: 'Movie title is required'
     }),
-  genres: zod
-    .array(
-      zod.enum(['science fiction', 'action', 'drama', 'crime', 'romance', 'adventure', 'fantasy', 'animation', 'war', 'history', 'thriller']),
-      { message: 'Movie genres is required' }
-    )
-    .nonempty({ message: "Genres can't be empty" }),
   release_year: zod
     .number({
       invalid_type_error: 'Movie release_year must be a number',
@@ -39,13 +33,24 @@ const movieSchema = zod.object({
     .string({
       invalid_type_error: 'Movie description must be a string',
       required_error: 'Movie description is required'
-    })
+    }),
+  genres: zod
+    .array(
+      zod.enum(['science fiction', 'action', 'drama', 'crime', 'romance', 'adventure', 'fantasy', 'animation', 'war', 'history', 'thriller']),
+      { message: 'Movie genres is required' }
+    )
+    .nonempty({ message: "Genres can't be empty" })
 })
 
 function validateMovie (object) {
   return movieSchema.safeParse(object)
 }
 
+function validatePartialMovie (object) {
+  return movieSchema.partial().safeParse(object)
+}
+
 module.exports = {
-  validateMovie
+  validateMovie,
+  validatePartialMovie
 }
