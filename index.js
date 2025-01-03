@@ -15,5 +15,13 @@
 // **********************************************
 
 // ? Api REST
-const { initApiRest } = require('./clase3/1.appRest')
+// const { initApiRest } = require('./clase3/1.appRest')
+// initApiRest()
+
+// **********************************************
+// ** CLASE 4  **********************************
+// **********************************************
+
+// ? Api REST con ESModules
+import { initApiRest } from './clase4/1.appRest.js'
 initApiRest()
