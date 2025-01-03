@@ -5,7 +5,7 @@ GET http://localhost:8080/movies
 GET http://localhost:8080/movies/1
 
 ### Recuperar películas por genero
-GET http://localhost:8080/movies?genero=Drama
+GET http://localhost:8080/movies?genre=Drama
 
 ### Crear una pelicula
 POST http://localhost:8080/movies
