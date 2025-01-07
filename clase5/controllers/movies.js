@@ -1,4 +1,7 @@
-import { Movie } from '../models/movie.js'
+// ! Con solo cambiar una linea, a que BD esta atacando
+// import { Movie } from '../models/local/movie.js'
+import { Movie } from '../models/mysql/movie.js'
+
 import { validateMovie, validatePartialMovie } from '../schemas/movies.js'
 
 export class MoviesController {

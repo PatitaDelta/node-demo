@@ -7,7 +7,7 @@ import crypto from 'node:crypto'
 // ? Como leer un json en ESModules de forma recomendada
 import { createRequire } from 'node:module'
 const require = createRequire(import.meta.url)
-const movies = require('../movies.json')
+const movies = require('../../movies.json')
 
 // ? Como leer un json en ESModules de forma entendible pero bloqueando
 // import fs from 'node:fs'

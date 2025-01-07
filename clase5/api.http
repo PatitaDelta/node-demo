@@ -2,7 +2,7 @@
 GET http://localhost:8080/movies
 
 ### Recuperar película por id
-GET http://localhost:8080/movies/1
+GET http://localhost:8080/movies/75dc0afe-ccea-11ef-93e9-0242ac140003
 
 ### Recuperar películas por genero
 GET http://localhost:8080/movies?genre=Drama
@@ -37,16 +37,18 @@ Content-Type: application/json
 
 ### Actualizar una pelicula
 ### No cambia la id porque no se valida y la ignora
-PATCH http://localhost:8080/movies/1
+PATCH http://localhost:8080/movies/62513a1a-cd10-11ef-93e9-0242ac140003
 Content-Type: application/json
 
 {
-  "id": 33,  
-  "duration": 2
+  "id": 33,
+  "duration": 2,
+  "description": "dweqdewdw"
+
 }
 
 ### Imtento Actualizar una pelicula
-PATCH http://localhost:8080/movies/1
+PATCH http://localhost:8080/movies/3b2c2817-cd0b-11ef-93e9-0242ac140003
 Content-Type: application/json
 
 {
@@ -56,5 +58,5 @@ Content-Type: application/json
 }
 
 ### Eliminar una pelicula
-DELETE http://localhost:8080/movies/1
+DELETE http://localhost:8080/movies/62513a1a-cd10-11ef-93e9-0242ac140003
 Content-Type: application/json
