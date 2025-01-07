@@ -23,5 +23,13 @@
 // **********************************************
 
 // ? Api REST con ESModules
-import { initApiRest } from './clase4/1.appRest.js'
+// import { initApiRest } from './clase4/1.appRest.js'
+// initApiRest()
+
+// **********************************************
+// ** CLASE 5  **********************************
+// **********************************************
+
+// ? Api REST con MySQL
+import { initApiRest } from './clase5/app.js'
 initApiRest()
