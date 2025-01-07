@@ -1,0 +1,60 @@
+### Recuperar todas las película
+GET http://localhost:8080/movies
+
+### Recuperar película por id
+GET http://localhost:8080/movies/1
+
+### Recuperar películas por genero
+GET http://localhost:8080/movies?genre=Drama
+
+### Crear una pelicula
+POST http://localhost:8080/movies
+Content-Type: application/json
+
+{
+  "title": "Test",
+  "genres": [
+    "crime",
+    "drama",
+    "thriller"
+  ],
+  "release_year": 2004,
+  "duration": 120,
+  "rating": 5,
+  "description": "aaaa" 
+}
+
+### Intento de crear una pelicula
+POST http://localhost:8080/movies
+Content-Type: application/json
+
+{
+  "title": "Test",
+  "release_year": 2004,
+  "duration": 2.3,
+  "description": 12
+}
+
+### Actualizar una pelicula
+### No cambia la id porque no se valida y la ignora
+PATCH http://localhost:8080/movies/1
+Content-Type: application/json
+
+{
+  "id": 33,  
+  "duration": 2
+}
+
+### Imtento Actualizar una pelicula
+PATCH http://localhost:8080/movies/1
+Content-Type: application/json
+
+{
+  "title": 2,
+  "genres": ["aaa"],
+  "release_year": 3000
+}
+
+### Eliminar una pelicula
+DELETE http://localhost:8080/movies/1
+Content-Type: application/json

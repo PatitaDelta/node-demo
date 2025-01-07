@@ -1,0 +1,248 @@
+[
+    {
+        "id": 1,
+        "title": "inception",
+        "genres": [
+            "science fiction",
+            "action"
+        ],
+        "release_year": 2010,
+        "duration": 148,
+        "rating": 8.8,
+        "description": "a thief who steals secrets through the use of dream technology is given the opportunity to have his criminal history erased in exchange for performing one last job: planting an idea in the mind of a target."
+    },
+    {
+        "id": 2,
+        "title": "the shawshank redemption",
+        "genres": [
+            "drama"
+        ],
+        "release_year": 1994,
+        "duration": 142,
+        "rating": 9.3,
+        "description": "an innocent man is sentenced to life in prison and forms a friendship with another inmate while seeking a way to escape."
+    },
+    {
+        "id": 3,
+        "title": "the dark knight",
+        "genres": [
+            "action",
+            "crime",
+            "drama"
+        ],
+        "release_year": 2008,
+        "duration": 152,
+        "rating": 9.0,
+        "description": "batman faces his arch-nemesis, the joker, who plans to plunge gotham city into chaos and anarchy."
+    },
+    {
+        "id": 4,
+        "title": "pulp fiction",
+        "genres": [
+            "crime",
+            "drama"
+        ],
+        "release_year": 1994,
+        "duration": 154,
+        "rating": 8.9,
+        "description": "the film intertwines several crime stories in los angeles, exploring themes such as revenge, redemption, and coincidence."
+    },
+    {
+        "id": 5,
+        "title": "the godfather",
+        "genres": [
+            "crime",
+            "drama"
+        ],
+        "release_year": 1972,
+        "duration": 175,
+        "rating": 9.2,
+        "description": "the story of the corleone crime family, focusing on patriarch vito corleone and his son michael, who is drawn into the world of organized crime."
+    },
+    {
+        "id": 6,
+        "title": "forrest gump",
+        "genres": [
+            "drama",
+            "romance"
+        ],
+        "release_year": 1994,
+        "duration": 142,
+        "rating": 8.8,
+        "description": "a man with a low iq lives an extraordinary life full of historical events and amazing experiences, influencing the course of american history."
+    },
+    {
+        "id": 7,
+        "title": "the matrix",
+        "genres": [
+            "action",
+            "science fiction"
+        ],
+        "release_year": 1999,
+        "duration": 136,
+        "rating": 8.7,
+        "description": "a hacker discovers that the reality he knows is a simulation created by machines and joins a resistance to fight for humanity's freedom."
+    },
+    {
+        "id": 8,
+        "title": "gladiator",
+        "genres": [
+            "action",
+            "adventure",
+            "drama"
+        ],
+        "release_year": 2000,
+        "duration": 155,
+        "rating": 8.5,
+        "description": "a fallen roman general seeks revenge on the emperor who murdered his family and betrayed him."
+    },
+    {
+        "id": 9,
+        "title": "avatar",
+        "genres": [
+            "science fiction",
+            "adventure"
+        ],
+        "release_year": 2009,
+        "duration": 162,
+        "rating": 7.8,
+        "description": "on the alien world of pandora, a paralyzed ex-marine is chosen to infiltrate the na'vi tribe and help exploit their natural resources."
+    },
+    {
+        "id": 10,
+        "title": "titanic",
+        "genres": [
+            "drama",
+            "romance"
+        ],
+        "release_year": 1997,
+        "duration": 195,
+        "rating": 7.8,
+        "description": "a young couple falls in love aboard the titanic, while the ship sinks after hitting an iceberg."
+    },
+    {
+        "id": 11,
+        "title": "the lord of the rings: the fellowship of the ring",
+        "genres": [
+            "adventure",
+            "fantasy"
+        ],
+        "release_year": 2001,
+        "duration": 178,
+        "rating": 8.8,
+        "description": "a young hobbit, frodo baggins, embarks on a mission to destroy the one ring, an artifact that could bring destruction to the world."
+    },
+    {
+        "id": 12,
+        "title": "fight club",
+        "genres": [
+            "drama"
+        ],
+        "release_year": 1999,
+        "duration": 139,
+        "rating": 8.8,
+        "description": "an insomniac man forms a secret fight club as a way to release his personal frustration, only to discover that his fight club partner has bigger plans."
+    },
+    {
+        "id": 13,
+        "title": "star wars: episode iv - a new hope",
+        "genres": [
+            "action",
+            "adventure",
+            "science fiction"
+        ],
+        "release_year": 1977,
+        "duration": 121,
+        "rating": 8.6,
+        "description": "a young farmer named luke skywalker joins a rebellion to defeat the evil galactic empire and save princess leia."
+    },
+    {
+        "id": 14,
+        "title": "the lion king",
+        "genres": [
+            "animation",
+            "adventure",
+            "drama"
+        ],
+        "release_year": 1994,
+        "duration": 88,
+        "rating": 8.5,
+        "description": "a young lion named simba must learn to assume his role as king after his father's death."
+    },
+    {
+        "id": 15,
+        "title": "the avengers",
+        "genres": [
+            "action",
+            "adventure",
+            "science fiction"
+        ],
+        "release_year": 2012,
+        "duration": 143,
+        "rating": 8.0,
+        "description": "a group of superheroes comes together to save the world from an extraterrestrial invasion led by loki, thor's brother."
+    },
+    {
+        "id": 16,
+        "title": "jurassic park",
+        "genres": [
+            "science fiction",
+            "adventure",
+            "action"
+        ],
+        "release_year": 1993,
+        "duration": 127,
+        "rating": 8.1,
+        "description": "a dinosaur theme park becomes a deadly place when cloned animals are released and endanger the visitors."
+    },
+    {
+        "id": 17,
+        "title": "schindler's list",
+        "genres": [
+            "drama",
+            "war",
+            "history"
+        ],
+        "release_year": 1993,
+        "duration": 195,
+        "rating": 9.0,
+        "description": "a german businessman saves thousands of jews during the holocaust by employing them in his factory, despite the personal and moral risks."
+    },
+    {
+        "id": 18,
+        "title": "the godfather: part ii",
+        "genres": [
+            "crime",
+            "drama"
+        ],
+        "release_year": 1974,
+        "duration": 202,
+        "rating": 9.0,
+        "description": "the sequel to 'the godfather' follows both the story of michael corleone and his father vito in his early years."
+    },
+    {
+        "id": 19,
+        "title": "interstellar",
+        "genres": [
+            "science fiction",
+            "drama"
+        ],
+        "release_year": 2014,
+        "duration": 169,
+        "rating": 8.6,
+        "description": "a group of astronauts travels through a wormhole in search of a new home for humanity while facing space-time dilemmas and emotional challenges."
+    },
+    {
+        "id": 20,
+        "title": "the departed",
+        "genres": [
+            "crime",
+            "drama",
+            "thriller"
+        ],
+        "release_year": 2006,
+        "duration": 151,
+        "rating": 8.5,
+        "description": "in a game of deception and betrayal, an undercover cop and a mafia member try to uncover each other's identity."
+    }
+]
