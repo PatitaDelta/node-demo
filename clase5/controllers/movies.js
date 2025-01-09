@@ -1,35 +1,35 @@
-// ! Con solo cambiar una linea, a que BD esta atacando
-// import { Movie } from '../models/local/movie.js'
-import { Movie } from '../models/mysql/movie.js'
-
 import { validateMovie, validatePartialMovie } from '../schemas/movies.js'
 
 export class MoviesController {
-  static async getMovies (request, response) {
+  constructor ({ movieModel }) {
+    this.movie = movieModel
+  }
+
+  getMovies = async (request, response) => {
     // ? CORS Otra forma de confugar el CORS pero para un solo endpoint
     // response.header('Access-Control-Allow-Origin', 'http://localhost:41913')
     if (Object.keys(request.query).length) {
       const { genre } = request.query
-      const movies = await Movie.getAllMoviesByQuery({ genre })
+      const movies = await this.movie.getAllMoviesByQuery({ genre })
       return response.json(movies)
     }
 
-    response.json(await Movie.getAllMovies())
+    response.json(await this.movie.getAllMovies())
   }
 
-  static async getMovie (request, response) {
+  getMovie = async (request, response) => {
   // ? Validacion de datos de entrada
     const { id } = request.params
 
     // ? Creacion en BD
-    const movie = await Movie.getMovieById({ id })
+    const movie = await this.movie.getMovieById({ id })
 
     // ? Envio respuesta
     if (movie) return response.json(movie)
     response.status(404).json({ message: 'Movie not found' })
   }
 
-  static async postMovie (request, response) {
+  postMovie = async (request, response) => {
   // ? Validacion de datos de entrada
     const result = validateMovie(request.body)
 
@@ -38,28 +38,28 @@ export class MoviesController {
     }
 
     // ? Creacion en BD
-    const newMovie = await Movie.postMovie({ movie: result.data })
+    const newMovie = await this.movie.postMovie({ movie: result.data })
 
     // ? Envio respuesta
     if (!newMovie) return response.status(500).json({ message: 'Movie could not be created' })
     response.status(201).json(newMovie)
   }
 
-  static async patchMovie (request, response) {
+  patchMovie = async (request, response) => {
   // ? Validacion de datos de entrada
     const result = validatePartialMovie(request.body)
     if (result.error) return response.status(400).json({ message: JSON.parse(result.error.message) })
 
     // ? Modificacion de los datos en BD
     const { id } = request.params
-    const updatedMovie = await Movie.patchMovieById({ id, element: result.data })
+    const updatedMovie = await this.movie.patchMovieById({ id, element: result.data })
 
     // ? Envio respuesta
     if (!updatedMovie) return response.status(404).json({ message: 'Movie not found' })
     response.json(updatedMovie)
   }
 
-  static async deleteMovie (request, response) {
+  deleteMovie = async (request, response) => {
   // ? CORS Otra forma de confugar el CORS pero para un solo endpoint
   // res.header('Access-Control-Allow-Origin', 'http://localhost:41913')
   // res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE')
@@ -68,7 +68,7 @@ export class MoviesController {
     const { id } = request.params
 
     // ? Modificacion de los datos en BD
-    const deletedMovie = await Movie.deleteMovieById({ id })
+    const deletedMovie = await this.movie.deleteMovieById({ id })
 
     // ? Envio respuesta
     if (!deletedMovie) return response.status(404).json({ message: 'Movie not found' })

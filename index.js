@@ -32,4 +32,6 @@
 
 // ? Api REST con MySQL
 import { initApiRest } from './clase5/app.js'
-initApiRest()
+import { Movie } from './clase5/models/mysql/movie.js'
+
+initApiRest({ movieModel: Movie })

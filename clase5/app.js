@@ -1,9 +1,10 @@
 import express from 'express' // ESModules
-import { moviesRouter } from './routes/movies.js'
+import { createMovieRouter } from './routes/movies.js'
 import { corsMiddleware } from './middleware/cors.js'
 
-export function initApiRest () {
+export const initApiRest = ({ movieModel }) => {
   const app = express()
+  const moviesRouter = createMovieRouter({ movieModel })
 
   app.use(express.json()) // Middleware - Transforma los cuerpos de las petciones a json
   app.disable('x-powered-by') // Desabilita la cabecera de X-Powered-By: Express
