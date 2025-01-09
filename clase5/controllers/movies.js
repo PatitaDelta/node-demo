@@ -10,7 +10,8 @@ export class MoviesController {
     // response.header('Access-Control-Allow-Origin', 'http://localhost:41913')
     if (Object.keys(request.query).length) {
       const { genre } = request.query
-      return response.json(await Movie.getAllMoviesByQuery({ genre }))
+      const movies = await Movie.getAllMoviesByQuery({ genre })
+      return response.json(movies)
     }
 
     response.json(await Movie.getAllMovies())
