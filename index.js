@@ -31,7 +31,16 @@
 // **********************************************
 
 // ? Api REST con MySQL
-import { initApiRest } from './clase5/app.js'
-import { Movie } from './clase5/models/mysql/movie.js'
+// import { initApiRest } from './clase5/app.js'
+// import { Movie } from './clase5/models/mysql/movie.js'
 
-initApiRest({ movieModel: Movie })
+// initApiRest({ movieModel: Movie })
+
+// **********************************************
+// ** TypeScript Api  ***************************
+// **********************************************
+
+// ? Api REST con TypeScript
+import { initApiRest } from './typescript-api/build/index.js'
+
+initApiRest()
