@@ -12,18 +12,19 @@
   "license": "ISC",
   "description": "",
   "eslintConfig": {
-    "extends": "standard"
+    "extends": "ts-standard"
   },
   "devDependencies": {
     "@types/cors": "2.8.17",
     "@types/express": "5.0.0",
-    "nodemon": "^3.1.9",
-    "standard": "^17.1.2",
+    "nodemon": "3.1.9",
+    "ts-standard": "12.0.2",
     "typescript": "5.7.3"
   },
   "dependencies": {
     "cors": "2.8.5",
     "express": "4.21.2",
+    "fast-csv": "5.0.2",
     "mysql2": "3.12.0",
     "zod": "3.24.1"
   }

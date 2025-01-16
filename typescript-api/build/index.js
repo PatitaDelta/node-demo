@@ -1,14 +1,17 @@
 import express from 'express';
 import cors from 'cors';
+import { createHomeRouter } from './src/home/home.routes.js';
+import { createCsvRouter } from './src/csv/csv.routes.js';
 export function initApiRest() {
     var _a;
     const app = express();
-    app.use(express.json());
+    const homeRouter = createHomeRouter();
+    const csvRouter = createCsvRouter();
     app.disable('x-powered-by');
+    app.use(express.json());
     app.use(cors());
-    app.get('/ping', (_request, response) => {
-        response.send('<h1>pong</h1>');
-    });
+    app.use('/', homeRouter);
+    app.use('/csv', csvRouter);
     const PORT = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 8080;
     app.listen(PORT, () => {
         console.log(`Listening in the port ${PORT}`);
