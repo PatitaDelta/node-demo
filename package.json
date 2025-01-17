@@ -12,7 +12,7 @@
   },
   "author": "Guillermo Lillo López",
   "license": "ISC",
-  "description": "API REST con generacion de csv",
+  "description": "Proyecto de prueba para empezar con node y proyecto 'final' de typescript, con guardado de datos de usrs y peliculas en BD mysql y generador de archivos csv",
   "devDependencies": {
     "@types/cors": "2.8.17",
     "@types/express": "5.0.0",
