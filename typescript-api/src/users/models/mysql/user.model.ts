@@ -1,4 +1,4 @@
-import mysql, { Connection, QueryResult } from 'mysql2/promise'
+import mysql, { Connection } from 'mysql2/promise'
 import { NoSensitiveInfoUser, User } from '../user.js'
 
 const conexion: Connection = await mysql.createConnection({

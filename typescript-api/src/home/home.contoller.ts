@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 
 export class HomeController {
-  constructor () { }
+  // constructor () { }
 
   public homePage (_: Request, res: Response): void {
     res.send('<h1>Hola mundo</h1>')

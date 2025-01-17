@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { UserController } from './user.controller.js'
 
-export function createUserRouter () {
+export function createUserRouter (): Router {
   const userRouter = Router()
 
   userRouter.get('/', UserController.getUsers)

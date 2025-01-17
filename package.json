@@ -13,18 +13,6 @@
   "author": "Guillermo Lillo López",
   "license": "ISC",
   "description": "API REST con generacion de csv",
-  "eslintConfig": {
-    "extends": [
-      "./node_modules/ts-standard/eslintrc.json"
-    ],
-    "parserOptions": {
-      "project": "./tsconfig.json"
-    },
-    "ignorePatterns": [
-      "node_modules/",
-      "typescript-api/build/"
-    ]
-  },
   "devDependencies": {
     "@types/cors": "2.8.17",
     "@types/express": "5.0.0",
@@ -39,5 +27,20 @@
     "fast-csv": "5.0.2",
     "mysql2": "3.12.0",
     "zod": "3.24.1"
+  },
+  "eslintConfig": {
+    "rules": {
+      "@typescript-eslint/no-extraneous-class": "off"
+    },
+    "extends": [
+      "./node_modules/ts-standard/eslintrc.json"
+    ],
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "ignorePatterns": [
+      "node_modules/",
+      "typescript-api/build/"
+    ]
   }
 }

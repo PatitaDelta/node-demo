@@ -1,7 +1,7 @@
 export class CsvController {
-  constructor () { }
+  // constructor () { }
 
-  public readCSV () {
+  public readCSV (): void {
 
   }
 }
