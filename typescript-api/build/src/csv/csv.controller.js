@@ -1,6 +1,5 @@
 export class CsvController {
-    constructor() { }
+    // constructor () { }
     readCSV() {
-        return;
     }
 }

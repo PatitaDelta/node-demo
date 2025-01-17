@@ -5,7 +5,7 @@ export class UserController {
   // constructor () { }
 
   public static getUsers (_: Request, response: Response): void {
-    UserModel.getUsers().then((users) => {
+    UserModel.getNoSensitiveInfoUsers().then((users) => {
       if (Object.keys(users).length !== 0) return response.json(users)
       return response.status(404).json({ message: 'No users found' })
     }).catch(console.log)

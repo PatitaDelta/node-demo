@@ -1,12 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import { createHomeRouter } from './src/home/home.routes.js';
-import { createCsvRouter } from './src/csv/csv.routes.js';
+// import { createCsvRouter } from './src/csv/csv.routes.js'
 import { createUserRouter } from './src/users/user.router.js';
 export function initApiRest() {
     const app = express();
     const homeRouter = createHomeRouter();
-    const csvRouter = createCsvRouter();
+    // const csvRouter = createCsvRouter()
     const userRouter = createUserRouter();
     app.disable('x-powered-by');
     app.use(express.json());

@@ -11,21 +11,23 @@ const conexion: Connection = await mysql.createConnection({
 
 export class UserModel {
   public static async getUsers (): Promise<User[]> {
-    const query = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user'
+    const query = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user;'
     const data = await conexion.query(query, [])
 
     return data[0] as unknown as User[]
   }
 
   public static async getUserById (id: string): Promise<User> {
-    const query = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?)'
+    const query = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
     const data = await conexion.query(query, [id])
 
     return data[0] as unknown as User
   }
 
-  public static async getNoSensitiveInfoUserById (id: string): Promise<NoSensitiveInfoUser> {
-    const query = 'SELECT id, name, email FROM user WHERE id = UUID_TO_BIN(?)'
-    return await conexion.query(query, [id]).then()
+  public static async getNoSensitiveInfoUsers (): Promise<NoSensitiveInfoUser[]> {
+    const query = 'SELECT BIN_TO_UUID(id) as id, name, email FROM user WHERE LOWER(name) NOT LIKE \'%admin%\';'
+    const data = await conexion.query(query, [])
+
+    return data[0] as unknown as NoSensitiveInfoUser[]
   }
 }

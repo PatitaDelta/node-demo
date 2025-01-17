@@ -1,5 +1,5 @@
 export class HomeController {
-    constructor() { }
+    // constructor () { }
     homePage(_, res) {
         res.send('<h1>Hola mundo</h1>');
     }
