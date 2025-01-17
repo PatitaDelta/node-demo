@@ -4,16 +4,26 @@
   "main": "./index.js",
   "type": "module",
   "scripts": {
-    "lint": "eslint",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "tsc": "tsc",
     "dev": "nodemon ./index.js",
     "test": "jest"
   },
   "author": "Guillermo Lillo López",
   "license": "ISC",
-  "description": "",
+  "description": "API REST con generacion de csv",
   "eslintConfig": {
-    "extends": "ts-standard"
+    "extends": [
+      "./node_modules/ts-standard/eslintrc.json"
+    ],
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "ignorePatterns": [
+      "node_modules/",
+      "typescript-api/build/"
+    ]
   },
   "devDependencies": {
     "@types/cors": "2.8.17",

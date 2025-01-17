@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { HomeController } from './home.contoller.js'
 
-export function createHomeRouter(): Router {
+export function createHomeRouter (): Router {
   const homeRouter = Router()
   const homeController = new HomeController()
 

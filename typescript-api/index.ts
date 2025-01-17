@@ -4,7 +4,7 @@ import { createHomeRouter } from './src/home/home.routes.js'
 import { createCsvRouter } from './src/csv/csv.routes.js'
 import { createUserRouter } from './src/users/user.router.js'
 
-export function initApiRest() {
+export function initApiRest () {
   const app = express()
   const homeRouter = createHomeRouter()
   const csvRouter = createCsvRouter()
