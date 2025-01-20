@@ -1,8 +1,13 @@
 import { Router } from 'express';
-import { UserController } from './user.controller.js';
+import UserController from './user.controller.js';
 export function createUserRouter() {
     const userRouter = Router();
-    userRouter.get('/', UserController.getUsers);
-    userRouter.get('/:id', UserController.getUser);
+    const userController = new UserController();
+    userRouter.get('/', userController.dataUsersNoSensitive);
+    userRouter.get('/sensitive', userController.dataUsersWithSensitive);
+    userRouter.get('/:id', userController.dataUser);
+    // userRouter.get('/csv', userController.dataUsersCSV)
+    userRouter.post('/', userController.registerUser);
+    userRouter.delete('/:id', userController.removeUser);
     return userRouter;
 }

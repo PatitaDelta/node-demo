@@ -12,11 +12,27 @@ GET http://localhost:8080/ping
 ### USERS ########################################################################
 ##################################################################################
 
+### GET users whit sensitive data
+GET http://localhost:8080/users/sensitive
+
 ### GET users without sensitive data
 GET http://localhost:8080/users
 
 ### GET all user data
 GET http://localhost:8080/users/53d5d122-d4d1-11ef-a3fb-0242ac140002
+
+### POST user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+    "password": "0987",
+    "email": "test@test.com",
+    "rol": "admin"
+}
+
+### DELETE user
+DELETE http://localhost:8080/users/87057d88-d72d-11ef-8301-0242ac140002
 
 ################################################################################
 ### CSV ########################################################################

@@ -8,6 +8,6 @@ export interface User {
   rol: Rol
 }
 
-export type NoSensitiveInfoUser = Omit<User, 'password' | 'rol'>
+export type NoSensitiveInfoUser = Omit<User, 'id' | 'password' | 'rol'>
 export type LoginUser = Pick<User, 'email' | 'password'>
 export type RegisterUser = Pick<User, 'email' | 'password' | 'rol'>
