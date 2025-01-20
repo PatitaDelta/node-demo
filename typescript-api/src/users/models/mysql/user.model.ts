@@ -35,7 +35,6 @@ export default class UserModel {
     const { password, email, rol } = user
     const name = email.split('@')[0]
     const [[{ uuid }]] = await conexion.query('SELECT UUID() as uuid') as any
-    console.log(uuid)
 
     const postQuery = `
       INSERT INTO user (id, name, email, password, rol)
@@ -58,8 +57,7 @@ export default class UserModel {
       DELETE FROM user
       WHERE id = UUID_TO_BIN(?)
     ;`
-    const deleteQueryData = await conexion.query(deleteQuery, [id])
-    console.log(deleteQueryData)
+    await conexion.query(deleteQuery, [id])
 
     return userToDeleteData[0] as unknown as NoSensitiveInfoUser
   }
