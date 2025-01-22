@@ -1,4 +1,5 @@
 import UserModel from './models/mysql/user.model.js';
+import CsvService from '../utils/csv.service.js';
 export default class UserController {
     dataUsersNoSensitive(_, response) {
         UserModel.getNoSensitiveInfoUsers().then((users) => {
@@ -38,6 +39,14 @@ export default class UserController {
             if (Object.keys(user).length !== 0)
                 return response.json(user);
             return response.status(404).json({ message: 'User not found' });
+        }).catch(console.log);
+    }
+    dataUsersCSV(_, response) {
+        UserModel.getUsers().then(() => {
+            // TODO transformar users para que lo pueda crear en csv
+            CsvService.createCSV('users', ['a', 'b']).then((data) => {
+                return response.json({ message: 'Created', data });
+            }).catch(console.log);
         }).catch(console.log);
     }
 }

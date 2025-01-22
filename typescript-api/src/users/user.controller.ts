@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import UserModel from './models/mysql/user.model.js'
+import CsvService from '../utils/csv.service.js'
 
 export default class UserController {
   public dataUsersNoSensitive (_: Request, response: Response): void {
@@ -43,8 +44,12 @@ export default class UserController {
     }).catch(console.log)
   }
 
-  // public dataUsersCSV (request: Request, response: Response): void {
-  //   this.csv.createCSV()
-  //   // response.status(404).json({ message: 'User not found' })
-  // }
+  public dataUsersCSV (_: Request, response: Response): void {
+    UserModel.getUsers().then(() => {
+      // TODO transformar users para que lo pueda crear en csv
+      CsvService.createCSV('users', ['a', 'b']).then((data) => {
+        return response.json({ message: 'Created', data })
+      }).catch(console.log)
+    }).catch(console.log)
+  }
 }

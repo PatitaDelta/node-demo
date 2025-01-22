@@ -7,8 +7,8 @@ export function createUserRouter (): Router {
 
   userRouter.get('/', userController.dataUsersNoSensitive)
   userRouter.get('/sensitive', userController.dataUsersWithSensitive)
+  userRouter.get('/csv', userController.dataUsersCSV)
   userRouter.get('/:id', userController.dataUser)
-  // userRouter.get('/csv', userController.dataUsersCSV)
 
   userRouter.post('/', userController.registerUser)
 

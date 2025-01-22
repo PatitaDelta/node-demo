@@ -1,4 +1,4 @@
-export type Rol = 'admin' | 'client' | 'developer'
+import { Rol } from './user.enum.ts'
 
 export interface User {
   id: string
