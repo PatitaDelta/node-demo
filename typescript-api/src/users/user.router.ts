@@ -1,8 +1,9 @@
 import { Router } from 'express'
 import UserController from './user.controller.js'
+import { Router as asyncRouter } from '@root/async-router'
 
 export function createUserRouter (): Router {
-  const userRouter = Router()
+  const userRouter = asyncRouter()
   const userController = new UserController()
 
   userRouter.get('/', userController.dataUsersNoSensitive)

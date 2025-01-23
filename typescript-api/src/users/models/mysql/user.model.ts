@@ -10,9 +10,11 @@ const conexion: Connection = await mysql.createConnection({
 })
 
 export default class UserModel {
-  public static async getUsers (): Promise<User[]> {
-    const query = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user;'
-    const data = await conexion.query(query, [])
+  private static readonly defaultLimit = 5
+
+  public static async getUsers (limit: number = UserModel.defaultLimit): Promise<User[]> {
+    const query = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user LIMIT ?;'
+    const data = await conexion.query(query, [limit])
 
     return data[0] as unknown as User[]
   }
@@ -24,9 +26,9 @@ export default class UserModel {
     return data[0] as unknown as User
   }
 
-  public static async getNoSensitiveInfoUsers (): Promise<NoSensitiveInfoUser[]> {
-    const query = 'SELECT name, email FROM user WHERE LOWER(rol) NOT LIKE \'%admin%\';'
-    const data = await conexion.query(query, [])
+  public static async getNoSensitiveInfoUsers (limit: number = UserModel.defaultLimit): Promise<NoSensitiveInfoUser[]> {
+    const query = 'SELECT name, email FROM user WHERE LOWER(rol) NOT LIKE \'%admin%\' LIMIT ?;'
+    const data = await conexion.query(query, [limit])
 
     return data[0] as unknown as NoSensitiveInfoUser[]
   }

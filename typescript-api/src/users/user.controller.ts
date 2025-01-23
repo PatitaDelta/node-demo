@@ -44,12 +44,22 @@ export default class UserController {
     }).catch(console.log)
   }
 
-  public dataUsersCSV (_: Request, response: Response): void {
-    UserModel.getUsers().then(() => {
-      // TODO transformar users para que lo pueda crear en csv
-      CsvService.createCSV('users', ['a', 'b']).then((data) => {
-        return response.json({ message: 'Created', data })
-      }).catch(console.log)
-    }).catch(console.log)
+  public async dataUsersCSV (request: Request, response: Response): Promise<any> {
+    const limit = Number(request.query.limit)
+    const headers = JSON.parse(String(request.query.headers))
+
+    try {
+      const users = await UserModel.getUsers(Number(limit))
+      const file = await CsvService.createCSV('./typescript-api/static/csv/users', users, headers)
+
+      // TODO devolver el archivo csv para que se descargue
+      response.setHeader('Content-disposition', 'attachment; filename=data.csv')
+      response.set('Content-Type', 'text/csv')
+      console.log(file)
+      return response.status(200).send([])
+    } catch (error) {
+      console.error(error)
+      return response.status(500).json({ message: 'File could not be created', error })
+    }
   }
 }

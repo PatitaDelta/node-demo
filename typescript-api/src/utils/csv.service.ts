@@ -7,28 +7,25 @@ export default class CsvService {
 
   }
 
-  public static async createCSV (fileName: string, values: string[], headers?: string[]): Promise<any[]>
-  public static async createCSV (fileName: string, values: string[], headers: string[]): Promise<any[]> {
+  public static async createCSV (
+    fileName: string,
+    values: any[],
+    headers: string[] | boolean = true,
+    noOfRows: number = values.length,
+    delimiter: string = ','
+  ): Promise<any> {
     // TODO
-    const randoms = []
-    const min = 1
-    const max = 90000
-    const noOfRows = 80000
-
     const csvFile = fs.createWriteStream(fileName + '.csv')
-    const stream = format({ headers: true })
+    const stream = format({ headers, delimiter })
     stream.pipe(csvFile)
 
     for (let i = 0; i < noOfRows; i++) {
-      randoms.push({
-        characters: Math.random().toString(36).substr(2, 7),
-        number: Math.floor(Math.random() * (max - min + 1) + min)
-      })
-      stream.write(randoms[i])
+      stream.write(values[i])
     }
+
     stream.end()
     console.log(`${fileName} written with stream and ${noOfRows} rows`)
 
-    return randoms
+    return stream
   }
 }
