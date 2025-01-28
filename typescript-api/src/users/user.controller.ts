@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 import UserModel from './models/mysql/user.model.js'
+import { EditUser } from './models/user.js'
 import CsvService from '../utils/csv.service.js'
 import fs from 'node:fs/promises'
-import { EditUser } from './models/user.js'
 
 export default class UserController {
   public dataUsersNoSensitive (_: Request, response: Response): void {

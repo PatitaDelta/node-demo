@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 ### PUT user
-PUT http://localhost:8080/users/4f3010b8-dd9b-11ef-9b01-0242ac140002
+PUT http://localhost:8080/users/46fa74dd-dd9c-11ef-9b01-0242ac140002
 Content-Type: application/json
 
 {
@@ -43,7 +43,7 @@ Content-Type: application/json
 }
 
 ### PATCH user
-PATCH http://localhost:8080/users/4f3010b8-dd9b-11ef-9b01-0242ac140002
+PATCH http://localhost:8080/users/46fa74dd-dd9c-11ef-9b01-0242ac140002
 Content-Type: application/json
 
 {
@@ -51,7 +51,7 @@ Content-Type: application/json
 }
 
 ### DELETE user
-DELETE http://localhost:8080/users/87057d88-d72d-11ef-8301-0242ac140002
+DELETE http://localhost:8080/users/339e57bb-dd9c-11ef-9b01-0242ac140002
 
 ### GET users CSV
-GET http://localhost:8080/users/csv?headers=["id","name"]&limit=5
+GET http://localhost:8080/users/csv?headers=["id","email","rol"]&limit=5
