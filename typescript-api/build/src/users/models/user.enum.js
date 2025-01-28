@@ -1,6 +1,6 @@
-export var Rol;
-(function (Rol) {
-    Rol["Admin"] = "admin";
-    Rol["Client"] = "client";
-    Rol["Dev"] = "developer";
-})(Rol || (Rol = {}));
+// export enum Rol {
+//   Admin = 'admin',
+//   Client = 'client',
+//   Dev = 'developer'
+// }
+export {};

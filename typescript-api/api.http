@@ -31,6 +31,25 @@ Content-Type: application/json
     "rol": "admin"
 }
 
+### PUT user
+PUT http://localhost:8080/users/4f3010b8-dd9b-11ef-9b01-0242ac140002
+Content-Type: application/json
+
+{
+    "name": "Rebeca",
+    "password": "765",
+    "email": "rebeca@test.com",
+    "rol": "client"
+}
+
+### PATCH user
+PATCH http://localhost:8080/users/4f3010b8-dd9b-11ef-9b01-0242ac140002
+Content-Type: application/json
+
+{
+    "rol": "admin"
+}
+
 ### DELETE user
 DELETE http://localhost:8080/users/87057d88-d72d-11ef-8301-0242ac140002
 

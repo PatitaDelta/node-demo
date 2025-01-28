@@ -23,6 +23,7 @@ export default class UserModel {
         const data = await conexion.query(query, [limit]);
         return data[0];
     }
+    // Crear desde 0
     static async postUser(user) {
         const { password, email, rol } = user;
         const name = email.split('@')[0];
@@ -35,6 +36,32 @@ export default class UserModel {
         const userPostedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);';
         const userPostedData = await conexion.query(userPostedQuery, [uuid]);
         return userPostedData[0];
+    }
+    // Editar todo el usuario
+    static async putUser(user) {
+        const { id, name, password, email, rol } = user;
+        const putQuery = `
+      UPDATE user
+      SET name = ?, password = ?, email = ?, rol = ?
+      WHERE id = UUID_TO_BIN(?);
+    ;`;
+        await conexion.query(putQuery, [name, password, email, rol, id]);
+        const userPutedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);';
+        const userPutedData = await conexion.query(userPutedQuery, [id]);
+        return userPutedData[0];
+    }
+    // Editar solo una propiedad
+    static async patchUser(id, user) {
+        const [key, value] = Object.entries(user)[0];
+        const patchQuery = `
+      UPDATE user
+      SET ${key} = ?
+      WHERE id = UUID_TO_BIN(?);
+    `;
+        await conexion.query(patchQuery, [value, id]);
+        const userPatchedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);';
+        const userPatchedData = await conexion.query(userPatchedQuery, [id]);
+        return userPatchedData[0];
     }
     static async deleteUser(id) {
         const userToDeleteQuery = 'SELECT name, email FROM user WHERE id = UUID_TO_BIN(?);';

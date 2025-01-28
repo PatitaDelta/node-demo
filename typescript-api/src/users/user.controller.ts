@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import UserModel from './models/mysql/user.model.js'
 import CsvService from '../utils/csv.service.js'
 import fs from 'node:fs/promises'
+import { EditUser } from './models/user.js'
 
 export default class UserController {
   public dataUsersNoSensitive (_: Request, response: Response): void {
@@ -31,8 +32,33 @@ export default class UserController {
     const { password, email, rol } = request.body
     // TODO zod
     UserModel.postUser({ password, email, rol }).then((user) => {
+      // if (Object.keys(user).length !== 0)
+      return response.json(user)
+    }).catch((error) => {
+      console.log(error)
+      return response.status(500).json({ message: 'Error', error })
+    })
+  }
+
+  public editUser (request: Request, response: Response): void {
+    const { id } = request.params
+    const { name, password, email, rol } = request.body
+
+    // TODO zod
+    UserModel.putUser({ id, name, password, email, rol }).then((user) => {
       if (Object.keys(user).length !== 0) return response.json(user)
-      return response.status(500).json({ message: 'Error' })
+      return response.status(404).json({ message: 'User not found' })
+    }).catch(console.log)
+  }
+
+  public editPartialUser (request: Request, response: Response): void {
+    const { id } = request.params
+    const user: EditUser = request.body
+
+    // TODO zod
+    UserModel.patchUser(id, user).then((user) => {
+      if (Object.keys(user).length !== 0) return response.json(user)
+      return response.status(404).json({ message: 'User not found' })
     }).catch(console.log)
   }
 

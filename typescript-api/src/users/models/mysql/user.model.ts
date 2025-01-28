@@ -1,5 +1,5 @@
 import mysql, { Connection } from 'mysql2/promise'
-import { NoSensitiveInfoUser, RegisterUser, User } from '../user.js'
+import { EditUser, NoSensitiveInfoUser, RegisterUser, User } from '../user.js'
 
 const conexion: Connection = await mysql.createConnection({
   host: 'node-demo-database',
@@ -33,6 +33,7 @@ export default class UserModel {
     return data[0] as unknown as NoSensitiveInfoUser[]
   }
 
+  // Crear desde 0
   public static async postUser (user: RegisterUser): Promise<User> {
     const { password, email, rol } = user
     const name = email.split('@')[0]
@@ -49,6 +50,42 @@ export default class UserModel {
     const userPostedData = await conexion.query(userPostedQuery, [uuid])
 
     return userPostedData[0] as unknown as User
+  }
+
+  // Editar todo el usuario
+  public static async putUser (user: User): Promise<User> {
+    const { id, name, password, email, rol } = user
+
+    const putQuery = `
+      UPDATE user
+      SET name = ?, password = ?, email = ?, rol = ?
+      WHERE id = UUID_TO_BIN(?);
+    ;`
+
+    await conexion.query(putQuery, [name, password, email, rol, id])
+
+    const userPutedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
+    const userPutedData = await conexion.query(userPutedQuery, [id])
+
+    return userPutedData[0] as unknown as User
+  }
+
+  // Editar solo una propiedad
+  public static async patchUser (id: string, user: EditUser): Promise<User> {
+    const [key, value] = Object.entries(user)[0]
+
+    const patchQuery = `
+      UPDATE user
+      SET ${key} = ?
+      WHERE id = UUID_TO_BIN(?);
+    `
+
+    await conexion.query(patchQuery, [value, id])
+
+    const userPatchedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
+    const userPatchedData = await conexion.query(userPatchedQuery, [id])
+
+    return userPatchedData[0] as unknown as User
   }
 
   public static async deleteUser (id: string): Promise<NoSensitiveInfoUser> {

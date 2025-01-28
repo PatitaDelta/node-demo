@@ -11,3 +11,4 @@ export interface User {
 export type NoSensitiveInfoUser = Omit<User, 'id' | 'password' | 'rol'>
 export type LoginUser = Pick<User, 'email' | 'password'>
 export type RegisterUser = Pick<User, 'email' | 'password' | 'rol'>
+export type EditUser = Partial<Omit<User, 'id'>>

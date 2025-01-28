@@ -13,6 +13,10 @@ export function createUserRouter (): Router {
 
   userRouter.post('/', userController.registerUser)
 
+  userRouter.put('/:id', userController.editUser)
+
+  userRouter.patch('/:id', userController.editPartialUser)
+
   userRouter.delete('/:id', userController.removeUser)
 
   return userRouter
