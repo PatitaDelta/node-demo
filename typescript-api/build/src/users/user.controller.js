@@ -1,5 +1,6 @@
 import UserModel from './models/mysql/user.model.js';
 import CsvService from '../utils/csv.service.js';
+import fs from 'node:fs/promises';
 export default class UserController {
     dataUsersNoSensitive(_, response) {
         UserModel.getNoSensitiveInfoUsers().then((users) => {
@@ -42,16 +43,17 @@ export default class UserController {
         }).catch(console.log);
     }
     async dataUsersCSV(request, response) {
-        const limit = Number(request.query.limit);
+        const rows = Number(request.query.limit);
         const headers = JSON.parse(String(request.query.headers));
+        const fileDir = './typescript-api/static/csv/';
+        const fileName = 'users.csv';
         try {
-            const users = await UserModel.getUsers(Number(limit));
-            const file = await CsvService.createCSV('./typescript-api/static/csv/users', users, headers);
-            // TODO devolver el archivo csv para que se descargue
-            response.setHeader('Content-disposition', 'attachment; filename=data.csv');
+            const users = await UserModel.getUsers(Number(rows));
+            const filePath = await CsvService.createCSV(fileDir + fileName, users, headers, rows);
+            const file = await fs.readFile(filePath);
+            response.setHeader('Content-disposition', `attachment; filename=${fileName}`);
             response.set('Content-Type', 'text/csv');
-            console.log(file);
-            return response.status(200).send([]);
+            return response.send(file);
         }
         catch (error) {
             console.error(error);

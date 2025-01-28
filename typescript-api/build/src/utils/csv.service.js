@@ -5,8 +5,8 @@ export default class CsvService {
     readCSV() {
     }
     static async createCSV(fileName, values, headers = true, noOfRows = values.length, delimiter = ',') {
-        // TODO
-        const csvFile = fs.createWriteStream(fileName + '.csv');
+        fileName = !fileName.includes('.csv') ? fileName += '.csv' : fileName;
+        const csvFile = fs.createWriteStream(fileName);
         const stream = format({ headers, delimiter });
         stream.pipe(csvFile);
         for (let i = 0; i < noOfRows; i++) {
@@ -14,6 +14,6 @@ export default class CsvService {
         }
         stream.end();
         console.log(`${fileName} written with stream and ${noOfRows} rows`);
-        return stream;
+        return fileName;
     }
 }

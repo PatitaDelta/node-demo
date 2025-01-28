@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import UserModel from './models/mysql/user.model.js'
 import CsvService from '../utils/csv.service.js'
+import fs from 'node:fs/promises'
 
 export default class UserController {
   public dataUsersNoSensitive (_: Request, response: Response): void {
@@ -45,18 +46,20 @@ export default class UserController {
   }
 
   public async dataUsersCSV (request: Request, response: Response): Promise<any> {
-    const limit = Number(request.query.limit)
+    const rows = Number(request.query.limit)
     const headers = JSON.parse(String(request.query.headers))
+    const fileDir = './typescript-api/static/csv/'
+    const fileName = 'users.csv'
 
     try {
-      const users = await UserModel.getUsers(Number(limit))
-      const file = await CsvService.createCSV('./typescript-api/static/csv/users', users, headers)
+      const users = await UserModel.getUsers(Number(rows))
+      const filePath = await CsvService.createCSV(fileDir + fileName, users, headers, rows)
+      const file = await fs.readFile(filePath)
 
-      // TODO devolver el archivo csv para que se descargue
-      response.setHeader('Content-disposition', 'attachment; filename=data.csv')
+      response.setHeader('Content-disposition', `attachment; filename=${fileName}`)
       response.set('Content-Type', 'text/csv')
-      console.log(file)
-      return response.status(200).send([])
+
+      return response.send(file)
     } catch (error) {
       console.error(error)
       return response.status(500).json({ message: 'File could not be created', error })

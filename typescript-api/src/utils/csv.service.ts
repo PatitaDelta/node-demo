@@ -13,9 +13,9 @@ export default class CsvService {
     headers: string[] | boolean = true,
     noOfRows: number = values.length,
     delimiter: string = ','
-  ): Promise<any> {
-    // TODO
-    const csvFile = fs.createWriteStream(fileName + '.csv')
+  ): Promise<string> {
+    fileName = !fileName.includes('.csv') ? fileName += '.csv' : fileName
+    const csvFile = fs.createWriteStream(fileName)
     const stream = format({ headers, delimiter })
     stream.pipe(csvFile)
 
@@ -26,6 +26,6 @@ export default class CsvService {
     stream.end()
     console.log(`${fileName} written with stream and ${noOfRows} rows`)
 
-    return stream
+    return fileName
   }
 }
