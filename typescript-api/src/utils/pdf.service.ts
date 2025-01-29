@@ -28,6 +28,7 @@ export default class PdfService {
     //   rows.push(row)
     // }
 
+    // TODO tener en cuenta los sub objetos
     // Creacion de los headers
     const tableHeaders = headers.map((header) => {
       const label = header.charAt(0).toUpperCase() + header.slice(1)
