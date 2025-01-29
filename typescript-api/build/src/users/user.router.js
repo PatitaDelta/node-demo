@@ -6,6 +6,7 @@ export function createUserRouter() {
     userRouter.get('/', userController.dataUsersNoSensitive);
     userRouter.get('/sensitive', userController.dataUsersWithSensitive);
     userRouter.get('/csv', userController.dataUsersCSV);
+    userRouter.get('/pdf', userController.dataUsersPDF);
     userRouter.get('/:id', userController.dataUser);
     userRouter.post('/', userController.registerUser);
     userRouter.put('/:id', userController.editUser);

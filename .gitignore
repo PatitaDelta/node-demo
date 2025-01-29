@@ -2,3 +2,4 @@ node_modules
 dist
 .vscode
 typescript-api/static/csv
+typescript-api/static/pdf

@@ -1,5 +1,6 @@
 import UserModel from './models/mysql/user.model.js';
 import CsvService from '../utils/csv.service.js';
+import PdfService from '../utils/pdf.service.js';
 import fs from 'node:fs/promises';
 export default class UserController {
     dataUsersNoSensitive(_, response) {
@@ -66,7 +67,7 @@ export default class UserController {
     }
     async dataUsersCSV(request, response) {
         const rows = Number(request.query.limit);
-        const headers = JSON.parse(String(request.query.headers));
+        const headers = JSON.parse(String(request.query.headers ?? '[]'));
         const fileDir = './typescript-api/static/csv/';
         const fileName = 'users.csv';
         try {
@@ -75,6 +76,24 @@ export default class UserController {
             const file = await fs.readFile(filePath);
             response.setHeader('Content-disposition', `attachment; filename=${fileName}`);
             response.set('Content-Type', 'text/csv');
+            return response.send(file);
+        }
+        catch (error) {
+            console.error(error);
+            return response.status(500).json({ message: 'File could not be created', error });
+        }
+    }
+    async dataUsersPDF(request, response) {
+        const rows = Number(request.query.limit);
+        const headers = JSON.parse(String(request.query.headers ?? '[]'));
+        const fileDir = './typescript-api/static/pdf/';
+        const fileName = 'users.pdf';
+        try {
+            const users = await UserModel.getUsers(Number(rows));
+            const filePath = await PdfService.createPDF(fileDir + fileName, users, headers, rows);
+            const file = await fs.readFile(filePath);
+            response.setHeader('Content-disposition', `attachment; filename=${fileName}`);
+            response.set('Content-Type', 'application/pdf');
             return response.send(file);
         }
         catch (error) {

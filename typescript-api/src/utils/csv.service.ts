@@ -3,18 +3,21 @@ import { format } from '@fast-csv/format'
 import fs from 'node:fs'
 
 export default class CsvService {
-  public readCSV (): void {
+  public static readCSV (): void {
 
   }
 
-  public static async createCSV (
+  public static async createCSV<T extends { [key: string]: any }> (
     fileName: string,
-    values: any[],
-    headers: string[] | boolean = true,
+    values: T[],
+    headers: string[],
     noOfRows: number = values.length,
     delimiter: string = ','
   ): Promise<string> {
     fileName = !fileName.includes('.csv') ? fileName += '.csv' : fileName
+    headers = headers.length === 0 ? headers = Object.keys(values[0]) : headers
+    noOfRows = noOfRows > values.length ? noOfRows = values.length : noOfRows
+
     const csvFile = fs.createWriteStream(fileName)
     const stream = format({ headers, delimiter })
     stream.pipe(csvFile)
