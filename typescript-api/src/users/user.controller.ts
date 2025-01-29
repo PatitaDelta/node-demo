@@ -73,13 +73,18 @@ export default class UserController {
   }
 
   public async dataUsersCSV (request: Request, response: Response): Promise<any> {
-    const rows = Number(request.query.limit)
-    const headers: string[] = JSON.parse(String(request.query.headers ?? '[]'))
+    const rows: number | undefined = request.query.limit === undefined
+      ? undefined
+      : Number(request.query.limit)
+    const headers: string[] | undefined = request.query.headers === undefined
+      ? undefined
+      : JSON.parse((request.query.headers as string))
+
     const fileDir = './typescript-api/static/csv/'
     const fileName = 'users.csv'
 
     try {
-      const users = await UserModel.getUsers(Number(rows))
+      const users = await UserModel.getUsers(rows)
       const filePath = await CsvService.createCSV<User>(fileDir + fileName, users, headers, rows)
       const file = await fs.readFile(filePath)
 
@@ -94,13 +99,18 @@ export default class UserController {
   }
 
   public async dataUsersPDF (request: Request, response: Response): Promise<any> {
-    const rows = Number(request.query.limit)
-    const headers: string[] = JSON.parse(String(request.query.headers ?? '[]'))
+    const rows: number | undefined = request.query.limit === undefined
+      ? undefined
+      : Number(request.query.limit)
+    const headers: string[] | undefined = request.query.headers === undefined
+      ? undefined
+      : JSON.parse((request.query.headers as string))
+
     const fileDir = './typescript-api/static/pdf/'
     const fileName = 'users.pdf'
 
     try {
-      const users = await UserModel.getUsers(Number(rows))
+      const users = await UserModel.getUsers(rows)
       const filePath = await PdfService.createPDF<User>(fileDir + fileName, users, headers, rows)
       const file = await fs.readFile(filePath)
 

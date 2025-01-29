@@ -10,12 +10,11 @@ export default class CsvService {
   public static async createCSV<T extends { [key: string]: any }> (
     fileName: string,
     values: T[],
-    headers: string[],
+    headers: string[] = Object.keys(values[0]),
     noOfRows: number = values.length,
     delimiter: string = ','
   ): Promise<string> {
     fileName = !fileName.includes('.csv') ? fileName += '.csv' : fileName
-    headers = headers.length === 0 ? headers = Object.keys(values[0]) : headers
     noOfRows = noOfRows > values.length ? noOfRows = values.length : noOfRows
 
     const csvFile = fs.createWriteStream(fileName)

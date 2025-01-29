@@ -5,34 +5,45 @@ export default class PdfService {
   public static async createPDF<T extends { [key: string]: any }> (
     fileName: string,
     values: T[],
-    headers: string[],
+    headers: string[] = Object.keys(values[0]),
     noOfRows: number = values.length
   ): Promise<string> {
     fileName = !fileName.includes('.pdf') ? fileName += '.pdf' : fileName
-    headers = headers.length === 0 ? headers = Object.keys(values[0]) : headers
     noOfRows = noOfRows > values.length ? noOfRows = values.length : noOfRows
 
     const pdfFile = fs.createWriteStream(fileName)
-    const doc = new PDFDocument()
+    const doc = new PDFDocument({ margin: 30, size: 'A4' })
     doc.pipe(pdfFile)
 
-    const tableArray = {
-      headers: ['Country', 'Conversion rate', 'Trend'],
-      rows: [
-        ['Switzerland', '12%', '+1.12%'],
-        ['France', '67%', '-0.98%'],
-        ['England', '33%', '+4.44%']
-      ]
-    }
-    doc.table(tableArray, { width: 300 }).catch(console.log)
+    // 🥺 Es inutil pero lo tengo cariño por eso no lo borro
+    // Relleno de la tabla
+    // const rows: string[][] = [[]]
+    // rows.shift() // borra la inicializacion del principio
+    //
+    // for (let i = 0; i < noOfRows; i++) {
+    //   const row: string[] = []
+    //   headers.forEach(header => {
+    //     row.push(values[i][header])
+    //   })
+    //   rows.push(row)
+    // }
 
-    doc.text('Cabecera tabla \n' + headers.toString())
+    // Creacion de los headers
+    const tableHeaders = headers.map((header) => {
+      const label = header.charAt(0).toUpperCase() + header.slice(1)
+      const width: number = Number(values[0][header].length) + 50
+      return { label, property: header, width }
+    })
 
-    for (let i = 0; i < noOfRows; i++) {
-      headers.forEach(header => {
-        doc.text(values[i][header])
-      })
-    }
+    // Creacion de la tabla
+    doc.table({ headers: tableHeaders, datas: values }, {
+      prepareHeader: () => doc.font('Helvetica-Bold').fontSize(8),
+      prepareRow: (_, indexColumn, _indexRow, rectRow) => {
+        doc.font('Helvetica').fontSize(8)
+        indexColumn === 0 && doc.addBackground(rectRow, 'blue', 0.15)
+        return doc
+      }
+    }).catch(console.log)
 
     doc.end()
 

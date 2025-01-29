@@ -10,7 +10,7 @@ const conexion: Connection = await mysql.createConnection({
 })
 
 export default class UserModel {
-  private static readonly defaultLimit = 5
+  private static readonly defaultLimit = 100
 
   public static async getUsers (limit: number = UserModel.defaultLimit): Promise<User[]> {
     const query = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user LIMIT ?;'

@@ -57,4 +57,4 @@ DELETE http://localhost:8080/users/339e57bb-dd9c-11ef-9b01-0242ac140002
 GET http://localhost:8080/users/csv?headers=["id","email","rol"]&limit=5
 
 ### GET users PDF
-GET http://localhost:8080/users/pdf?headers=["id","email","rol"]&limit=2
+GET http://localhost:8080/users/pdf?headers=["id","email","rol"]&limit=5
