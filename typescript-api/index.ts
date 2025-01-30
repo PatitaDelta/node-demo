@@ -3,7 +3,7 @@ import cors from 'cors'
 import { createHomeRouter } from './src/home/home.routes.js'
 import { createUserRouter } from './src/users/user.router.js'
 
-export function initApiRest (): void {
+export default function initApiRest (): void {
   const app = express()
   const homeRouter = createHomeRouter()
   const userRouter = createUserRouter()

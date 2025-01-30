@@ -22,7 +22,7 @@ export default class UserController {
 
   public dataUser (request: Request, response: Response): void {
     const { id } = request.params
-
+    // TODO zod
     UserModel.getUserById(id).then((user) => {
       if (Object.keys(user).length !== 0) return response.json(user)
       return response.status(404).json({ message: 'User not found' })
