@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 ### PUT user
-PUT http://localhost:8080/users/fe5165a4-e23c-11ef-9af7-0242ac140002
+PUT http://localhost:8080/users/df929f56-e251-11ef-9af7-0242ac140002
 Content-Type: application/json
 
 {
@@ -43,7 +43,7 @@ Content-Type: application/json
 }
 
 ### PATCH user
-PATCH http://localhost:8080/users/fe5165a4-e23c-11ef-9af7-0242ac140002
+PATCH http://localhost:8080/users/df929f56-e251-11ef-9af7-0242ac140002
 Content-Type: application/json
 
 {

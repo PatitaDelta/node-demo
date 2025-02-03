@@ -47,6 +47,7 @@ export default class UserController {
             return;
         }
         try {
+            // TODO seprar el patch del get
             const { password, email, rol } = bodyValidation.data;
             const userRegisted = await UserModel.postUser({ password, email, rol });
             response.json(userRegisted);
@@ -64,12 +65,13 @@ export default class UserController {
         }
         try {
             const { id, name, password, email, rol } = paramsBodyValidation.data;
-            const userEdited = await UserModel.putUser({ id, name, password, email, rol });
-            if (Object.keys(userEdited).length === 0) {
+            const queryData = await UserModel.putUser({ id, name, password, email, rol });
+            const userEdited = await UserModel.getUserById(id);
+            if (userEdited === undefined) {
                 response.status(404).json({ message: 'User not found' });
                 return;
             }
-            response.json(userEdited);
+            response.json({ user: userEdited, queryData });
         }
         catch (error) {
             console.log(error);
@@ -90,12 +92,13 @@ export default class UserController {
         try {
             const partialUser = bodyValidation.data;
             const { id } = paramsValidation.data;
-            const userEditedPartial = await UserModel.patchUser(id, partialUser);
-            if (Object.keys(userEditedPartial).length === 0) {
+            const queryData = await UserModel.patchUser(id, partialUser);
+            const userEditedPartial = await UserModel.getUserById(id);
+            if (userEditedPartial === undefined) {
                 response.status(404).json({ message: 'User not found' });
                 return;
             }
-            response.json(userEditedPartial);
+            response.json({ user: userEditedPartial, queryData });
         }
         catch (error) {
             console.log(error);
@@ -111,7 +114,7 @@ export default class UserController {
         try {
             const { id } = paramsValidation.data;
             const userDelted = await UserModel.getUserById(id);
-            if (Object.keys(userDelted).length === 0) {
+            if (userDelted === undefined) {
                 response.status(404).json({ message: 'User not found' });
                 return;
             }

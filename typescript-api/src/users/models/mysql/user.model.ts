@@ -56,7 +56,7 @@ export default class UserModel {
   }
 
   // Editar todo el usuario
-  public static async putUser (user: User): Promise<User> {
+  public static async putUser (user: User): Promise<QueryResult> {
     const { id, name, password, email, rol } = user
 
     const putQuery = `
@@ -65,18 +65,13 @@ export default class UserModel {
       WHERE id = UUID_TO_BIN(?);
     ;`
 
-    await conexion.query(putQuery, [name, password, email, rol, id])
+    const putData = await conexion.query(putQuery, [name, password, email, rol, id])
 
-    // const userPutedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
-    // const userPutedData = await conexion.query(userPutedQuery, [id])
-    // return userPutedData[0] as unknown as User
-
-    const userPuted = await this.getUserById(id)
-    return userPuted
+    return putData[0]
   }
 
   // Editar solo una propiedad
-  public static async patchUser (id: string, user: EditUser): Promise<User> {
+  public static async patchUser (id: string, user: EditUser): Promise<QueryResult> {
     const [key, value] = Object.entries(user)[0]
 
     const patchQuery = `
@@ -85,14 +80,9 @@ export default class UserModel {
       WHERE id = UUID_TO_BIN(?);
     `
 
-    await conexion.query(patchQuery, [value, id])
+    const patchData = await conexion.query(patchQuery, [value, id])
 
-    // const userPatchedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
-    // const userPatchedData = await conexion.query(userPatchedQuery, [id])
-    // return userPatchedData[0] as unknown as User
-
-    const userPatched = await this.getUserById(id)
-    return userPatched
+    return patchData[0]
   }
 
   public static async deleteUser (id: string): Promise<QueryResult> {

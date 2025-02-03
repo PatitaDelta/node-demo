@@ -21,11 +21,12 @@ export const registerUserSchema = userSchema.pick({ email: true, password: true,
 export const editUserSchema = userSchema.partial().omit({ id: true })
 export const idUserSchema = userSchema.pick({ id: true })
 
-export function validateUser (object: any): SafeParseReturnType<any, User> {
-  return userSchema.safeParse(object)
-}
 export function validateRegisterUser (object: any): SafeParseReturnType<any, RegisterUser> {
   return registerUserSchema.safeParse(object)
+}
+
+export function validateUser (object: any): SafeParseReturnType<any, User> {
+  return userSchema.safeParse(object)
 }
 
 export function validatePartialUser (object: any): SafeParseReturnType<any, EditUser> {

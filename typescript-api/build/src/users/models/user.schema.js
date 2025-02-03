@@ -16,11 +16,11 @@ export const loginUserSchema = userSchema.pick({ email: true, password: true });
 export const registerUserSchema = userSchema.pick({ email: true, password: true, rol: true });
 export const editUserSchema = userSchema.partial().omit({ id: true });
 export const idUserSchema = userSchema.pick({ id: true });
-export function validateUser(object) {
-    return userSchema.safeParse(object);
-}
 export function validateRegisterUser(object) {
     return registerUserSchema.safeParse(object);
+}
+export function validateUser(object) {
+    return userSchema.safeParse(object);
 }
 export function validatePartialUser(object) {
     return editUserSchema.safeParse(object);
