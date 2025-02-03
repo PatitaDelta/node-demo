@@ -51,7 +51,7 @@ Content-Type: application/json
 }
 
 ### DELETE user
-DELETE http://localhost:8080/users/339e57bb-dd9c-11ef-9b01-0242ac140002
+DELETE http://localhost:8080/users/c117f1d0-e225-11ef-9af7-0242ac140002
 
 ### GET users CSV
 GET http://localhost:8080/users/csv?headers=["id","email","rol"]&limit=5

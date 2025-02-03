@@ -10,6 +10,7 @@ export default class CsvService {
         const csvFile = fs.createWriteStream(fileName);
         const stream = format({ headers, delimiter });
         stream.pipe(csvFile);
+        // TODO tener en cuenta los sub objetos
         for (let i = 0; i < noOfRows; i++) {
             stream.write(values[i]);
         }

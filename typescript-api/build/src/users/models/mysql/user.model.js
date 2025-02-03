@@ -15,8 +15,8 @@ export default class UserModel {
     }
     static async getUserById(id) {
         const query = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);';
-        const data = await conexion.query(query, [id]);
-        return data[0];
+        const [[data]] = await conexion.query(query, [id]);
+        return data;
     }
     static async getNoSensitiveInfoUsers(limit = UserModel.defaultLimit) {
         const query = 'SELECT name, email FROM user WHERE LOWER(rol) NOT LIKE \'%admin%\' LIMIT ?;';
@@ -64,13 +64,11 @@ export default class UserModel {
         return userPatchedData[0];
     }
     static async deleteUser(id) {
-        const userToDeleteQuery = 'SELECT name, email FROM user WHERE id = UUID_TO_BIN(?);';
-        const userToDeleteData = await conexion.query(userToDeleteQuery, [id]);
         const deleteQuery = `
       DELETE FROM user
       WHERE id = UUID_TO_BIN(?)
     ;`;
-        await conexion.query(deleteQuery, [id]);
-        return userToDeleteData[0];
+        const userDeleteData = await conexion.query(deleteQuery, [id]);
+        return userDeleteData[0];
     }
 }

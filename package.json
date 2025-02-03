@@ -30,6 +30,7 @@
     "mysql2": "3.12.0",
     "pdfkit": "0.16.0",
     "pdfkit-table": "0.1.99",
+    "ts-to-zod": "3.15.0",
     "zod": "3.24.1"
   },
   "eslintConfig": {

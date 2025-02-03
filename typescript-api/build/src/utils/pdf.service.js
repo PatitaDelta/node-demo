@@ -10,6 +10,8 @@ export default class PdfService {
         // 🥺 Es inutil pero lo tengo cariño por eso no lo borro
         // Relleno de la tabla
         // const rows: string[][] = [[]]
+        // rows.shift() // borra la inicializacion del principio
+        //
         // for (let i = 0; i < noOfRows; i++) {
         //   const row: string[] = []
         //   headers.forEach(header => {
@@ -17,7 +19,7 @@ export default class PdfService {
         //   })
         //   rows.push(row)
         // }
-        // rows.shift() // borra la inicializacion del principio
+        // TODO tener en cuenta los sub objetos
         // Creacion de los headers
         const tableHeaders = headers.map((header) => {
             const label = header.charAt(0).toUpperCase() + header.slice(1);

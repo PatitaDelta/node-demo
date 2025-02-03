@@ -10,14 +10,20 @@ export default class UserController {
     UserModel.getNoSensitiveInfoUsers().then((users) => {
       if (Object.keys(users).length !== 0) return response.json(users)
       return response.status(404).json({ message: 'No users found' })
-    }).catch(console.log)
+    }).catch(error => {
+      console.log(error)
+      response.status(500).json({ message: 'Error', error })
+    })
   }
 
   public dataUsersWithSensitive (_: Request, response: Response): void {
     UserModel.getUsers().then((users) => {
       if (Object.keys(users).length !== 0) return response.json(users)
       return response.status(404).json({ message: 'No users found' })
-    }).catch(console.log)
+    }).catch(error => {
+      console.log(error)
+      response.status(500).json({ message: 'Error', error })
+    })
   }
 
   public dataUser (request: Request, response: Response): void {
@@ -26,53 +32,81 @@ export default class UserController {
     UserModel.getUserById(id).then((user) => {
       if (Object.keys(user).length !== 0) return response.json(user)
       return response.status(404).json({ message: 'User not found' })
-    }).catch(console.log)
-  }
-
-  public registerUser (request: Request, response: Response): void {
-    const { password, email, rol } = request.body
-    // TODO zod
-    UserModel.postUser({ password, email, rol }).then((user) => {
-      // if (Object.keys(user).length !== 0)
-      return response.json(user)
-    }).catch((error) => {
+    }).catch(error => {
       console.log(error)
-      return response.status(500).json({ message: 'Error', error })
+      response.status(500).json({ message: 'Error', error })
     })
   }
 
-  public editUser (request: Request, response: Response): void {
+  public async registerUser (request: Request, response: Response): Promise<void> {
+    const { password, email, rol } = request.body
+
+    try {
+      // TODO zod
+      const userRegisted = await UserModel.postUser({ password, email, rol })
+      response.json({ user: userRegisted })
+    } catch (error) {
+      console.log(error)
+      response.status(500).json({ message: 'Error', error })
+    }
+  }
+
+  public async editUser (request: Request, response: Response): Promise<void> {
     const { id } = request.params
     const { name, password, email, rol } = request.body
 
     // TODO zod
-    UserModel.putUser({ id, name, password, email, rol }).then((user) => {
-      if (Object.keys(user).length !== 0) return response.json(user)
-      return response.status(404).json({ message: 'User not found' })
-    }).catch(console.log)
+    try {
+      const userEdited = UserModel.putUser({ id, name, password, email, rol })
+      if (Object.keys(userEdited).length === 0) {
+        response.status(404).json({ message: 'User not found' })
+        return
+      }
+      response.json(userEdited)
+    } catch (error) {
+      console.log(error)
+      response.status(500).json({ message: 'Error', error })
+    }
   }
 
-  public editPartialUser (request: Request, response: Response): void {
+  public async editPartialUser (request: Request, response: Response): Promise<void> {
     const { id } = request.params
-    const user: EditUser = request.body
+    const partialUser: EditUser = request.body
 
     // TODO zod
-    UserModel.patchUser(id, user).then((user) => {
-      if (Object.keys(user).length !== 0) return response.json(user)
-      return response.status(404).json({ message: 'User not found' })
-    }).catch(console.log)
+    try {
+      const userEditedPartial = await UserModel.patchUser(id, partialUser)
+      if (Object.keys(userEditedPartial).length === 0) {
+        response.status(404).json({ message: 'User not found' })
+        return
+      }
+      response.json(userEditedPartial)
+    } catch (error) {
+      console.log(error)
+      response.status(500).json({ message: 'Error', error })
+    }
   }
 
-  public removeUser (request: Request, response: Response): void {
+  public async removeUser (request: Request, response: Response): Promise<void> {
     const { id } = request.params
-    // TODO zod
-    UserModel.deleteUser(id).then((user) => {
-      if (Object.keys(user).length !== 0) return response.json(user)
-      return response.status(404).json({ message: 'User not found' })
-    }).catch(console.log)
+
+    try {
+      const userDelted = await UserModel.getUserById(id)
+
+      if (Object.keys(userDelted).length === 0) {
+        response.status(404).json({ message: 'User not found' })
+        return
+      }
+
+      const queryData = await UserModel.deleteUser(id)
+      response.json({ user: userDelted, queryData })
+    } catch (error) {
+      console.error(error)
+      response.status(500).json({ message: 'User could not be deleted', error })
+    }
   }
 
-  public async dataUsersCSV (request: Request, response: Response): Promise<any> {
+  public async dataUsersCSV (request: Request, response: Response): Promise<void> {
     const rows: number | undefined = request.query.limit === undefined
       ? undefined
       : Number(request.query.limit)
@@ -91,14 +125,14 @@ export default class UserController {
       response.setHeader('Content-disposition', `attachment; filename=${fileName}`)
       response.set('Content-Type', 'text/csv')
 
-      return response.send(file)
+      response.send(file)
     } catch (error) {
       console.error(error)
-      return response.status(500).json({ message: 'File could not be created', error })
+      response.status(500).json({ message: 'File could not be created', error })
     }
   }
 
-  public async dataUsersPDF (request: Request, response: Response): Promise<any> {
+  public async dataUsersPDF (request: Request, response: Response): Promise<void> {
     const rows: number | undefined = request.query.limit === undefined
       ? undefined
       : Number(request.query.limit)
@@ -117,10 +151,10 @@ export default class UserController {
       response.setHeader('Content-disposition', `attachment; filename=${fileName}`)
       response.set('Content-Type', 'application/pdf')
 
-      return response.send(file)
+      response.send(file)
     } catch (error) {
       console.error(error)
-      return response.status(500).json({ message: 'File could not be created', error })
+      response.status(500).json({ message: 'File could not be created', error })
     }
   }
 }

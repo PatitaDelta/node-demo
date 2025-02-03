@@ -19,6 +19,7 @@ export default class UserController {
     }
     dataUser(request, response) {
         const { id } = request.params;
+        // TODO zod
         UserModel.getUserById(id).then((user) => {
             if (Object.keys(user).length !== 0)
                 return response.json(user);
@@ -56,14 +57,21 @@ export default class UserController {
             return response.status(404).json({ message: 'User not found' });
         }).catch(console.log);
     }
-    removeUser(request, response) {
+    async removeUser(request, response) {
         const { id } = request.params;
-        // TODO zod
-        UserModel.deleteUser(id).then((user) => {
-            if (Object.keys(user).length !== 0)
-                return response.json(user);
-            return response.status(404).json({ message: 'User not found' });
-        }).catch(console.log);
+        try {
+            const userDelted = await UserModel.getUserById(id);
+            if (Object.keys(userDelted).length === 0) {
+                response.status(404).json({ message: 'User not found' });
+                return;
+            }
+            const queryData = await UserModel.deleteUser(id);
+            response.json({ user: userDelted, queryData });
+        }
+        catch (error) {
+            console.error(error);
+            response.status(500).json({ message: 'User could not be deleted', error });
+        }
     }
     async dataUsersCSV(request, response) {
         const rows = request.query.limit === undefined
@@ -80,11 +88,11 @@ export default class UserController {
             const file = await fs.readFile(filePath);
             response.setHeader('Content-disposition', `attachment; filename=${fileName}`);
             response.set('Content-Type', 'text/csv');
-            return response.send(file);
+            response.send(file);
         }
         catch (error) {
             console.error(error);
-            return response.status(500).json({ message: 'File could not be created', error });
+            response.status(500).json({ message: 'File could not be created', error });
         }
     }
     async dataUsersPDF(request, response) {
@@ -102,11 +110,11 @@ export default class UserController {
             const file = await fs.readFile(filePath);
             response.setHeader('Content-disposition', `attachment; filename=${fileName}`);
             response.set('Content-Type', 'application/pdf');
-            return response.send(file);
+            response.send(file);
         }
         catch (error) {
             console.error(error);
-            return response.status(500).json({ message: 'File could not be created', error });
+            response.status(500).json({ message: 'File could not be created', error });
         }
     }
 }

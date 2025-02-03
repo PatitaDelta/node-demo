@@ -1,4 +1,4 @@
-import mysql, { Connection } from 'mysql2/promise'
+import mysql, { Connection, FieldPacket, QueryResult, ResultSetHeader } from 'mysql2/promise'
 import { EditUser, NoSensitiveInfoUser, RegisterUser, User } from '../user.js'
 
 const conexion: Connection = await mysql.createConnection({
@@ -21,9 +21,9 @@ export default class UserModel {
 
   public static async getUserById (id: string): Promise<User> {
     const query = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
-    const data = await conexion.query(query, [id])
+    const [[data]] = await conexion.query(query, [id]) as [ResultSetHeader[], FieldPacket[]]
 
-    return data[0] as unknown as User
+    return data as unknown as User
   }
 
   public static async getNoSensitiveInfoUsers (limit: number = UserModel.defaultLimit): Promise<NoSensitiveInfoUser[]> {
@@ -37,19 +37,22 @@ export default class UserModel {
   public static async postUser (user: RegisterUser): Promise<User> {
     const { password, email, rol } = user
     const name = email.split('@')[0]
-    const [[{ uuid }]] = await conexion.query('SELECT UUID() as uuid') as any
+    const [[{ uuid: id }]] = await conexion.query('SELECT UUID() as uuid') as any
 
     const postQuery = `
       INSERT INTO user (id, name, email, password, rol)
         VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)
     ;`
 
-    await conexion.query(postQuery, [uuid, name, password, email, rol])
+    await conexion.query(postQuery, [id, name, password, email, rol])
 
-    const userPostedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
-    const userPostedData = await conexion.query(userPostedQuery, [uuid])
+    // ! El siguiente codigo es una forma de hacerlo sin usar la funcion getUserById del UserModel
+    // const userPostedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
+    // const userPostedData = await conexion.query(userPostedQuery, [uuid])
+    // return data[0] as unknown as User
 
-    return userPostedData[0] as unknown as User
+    const userPosted = await this.getUserById(id)
+    return userPosted
   }
 
   // Editar todo el usuario
@@ -64,10 +67,12 @@ export default class UserModel {
 
     await conexion.query(putQuery, [name, password, email, rol, id])
 
-    const userPutedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
-    const userPutedData = await conexion.query(userPutedQuery, [id])
+    // const userPutedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
+    // const userPutedData = await conexion.query(userPutedQuery, [id])
+    // return userPutedData[0] as unknown as User
 
-    return userPutedData[0] as unknown as User
+    const userPuted = await this.getUserById(id)
+    return userPuted
   }
 
   // Editar solo una propiedad
@@ -88,16 +93,13 @@ export default class UserModel {
     return userPatchedData[0] as unknown as User
   }
 
-  public static async deleteUser (id: string): Promise<NoSensitiveInfoUser> {
-    const userToDeleteQuery = 'SELECT name, email FROM user WHERE id = UUID_TO_BIN(?);'
-    const userToDeleteData = await conexion.query(userToDeleteQuery, [id])
-
+  public static async deleteUser (id: string): Promise<QueryResult> {
     const deleteQuery = `
       DELETE FROM user
       WHERE id = UUID_TO_BIN(?)
     ;`
-    await conexion.query(deleteQuery, [id])
+    const userDeleteData = await conexion.query(deleteQuery, [id])
 
-    return userToDeleteData[0] as unknown as NoSensitiveInfoUser
+    return userDeleteData[0]
   }
 }

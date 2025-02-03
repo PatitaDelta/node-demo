@@ -41,6 +41,6 @@
 // **********************************************
 
 // ? Api REST con TypeScript
-import { initApiRest } from './typescript-api/build/index.js'
+import initApiRest from './typescript-api/build/index.js'
 
 initApiRest()
