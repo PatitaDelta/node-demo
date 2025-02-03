@@ -1,12 +1,20 @@
 import PDFDocument from 'pdfkit-table'
 import fs from 'node:fs'
 
+interface PdfProps<T> {
+  fileName: string
+  values: T[]
+  headers: string[] | undefined
+  noOfRows: number | undefined
+}
+
 export default class PdfService {
-  public static async createPDF<T extends { [key: string]: any }> (
-    fileName: string,
-    values: T[],
-    headers: string[] = Object.keys(values[0]),
-    noOfRows: number = values.length
+  public static async createPDF<T extends { [key: string]: any }> ({
+    fileName,
+    values,
+    headers = Object.keys(values[0]),
+    noOfRows = values.length
+  }: PdfProps<T>
   ): Promise<string> {
     fileName = !fileName.includes('.pdf') ? fileName += '.pdf' : fileName
     noOfRows = noOfRows > values.length ? noOfRows = values.length : noOfRows

@@ -1,7 +1,7 @@
 import PDFDocument from 'pdfkit-table';
 import fs from 'node:fs';
 export default class PdfService {
-    static async createPDF(fileName, values, headers = Object.keys(values[0]), noOfRows = values.length) {
+    static async createPDF({ fileName, values, headers = Object.keys(values[0]), noOfRows = values.length }) {
         fileName = !fileName.includes('.pdf') ? fileName += '.pdf' : fileName;
         noOfRows = noOfRows > values.length ? noOfRows = values.length : noOfRows;
         const pdfFile = fs.createWriteStream(fileName);

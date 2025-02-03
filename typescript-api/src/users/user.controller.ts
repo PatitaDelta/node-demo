@@ -58,7 +58,6 @@ export default class UserController {
     // TODO zod
     try {
       const userEdited = await UserModel.putUser({ id, name, password, email, rol })
-      console.log(userEdited)
 
       if (Object.keys(userEdited).length === 0) {
         response.status(404).json({ message: 'User not found' })
@@ -148,7 +147,9 @@ export default class UserController {
 
     try {
       const users = await UserModel.getUsers(rows)
-      const filePath = await PdfService.createPDF<User>(fileDir + fileName, users, headers, rows)
+      const filePath = await PdfService.createPDF<User>(
+        { fileName: (fileDir + fileName), values: users, headers, noOfRows: rows }
+      )
       const file = await fs.readFile(filePath)
 
       response.setHeader('Content-disposition', `attachment; filename=${fileName}`)
