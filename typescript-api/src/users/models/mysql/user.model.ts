@@ -87,10 +87,12 @@ export default class UserModel {
 
     await conexion.query(patchQuery, [value, id])
 
-    const userPatchedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
-    const userPatchedData = await conexion.query(userPatchedQuery, [id])
+    // const userPatchedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
+    // const userPatchedData = await conexion.query(userPatchedQuery, [id])
+    // return userPatchedData[0] as unknown as User
 
-    return userPatchedData[0] as unknown as User
+    const userPatched = await this.getUserById(id)
+    return userPatched
   }
 
   public static async deleteUser (id: string): Promise<QueryResult> {

@@ -5,57 +5,82 @@ import fs from 'node:fs/promises';
 export default class UserController {
     dataUsersNoSensitive(_, response) {
         UserModel.getNoSensitiveInfoUsers().then((users) => {
-            if (Object.keys(users).length !== 0)
-                return response.json(users);
-            return response.status(404).json({ message: 'No users found' });
-        }).catch(console.log);
+            if (Object.keys(users).length === 0)
+                return response.status(404).json({ message: 'No users found' });
+            return response.json(users);
+        }).catch(error => {
+            console.log(error);
+            response.status(500).json({ message: 'Error', error });
+        });
     }
     dataUsersWithSensitive(_, response) {
         UserModel.getUsers().then((users) => {
-            if (Object.keys(users).length !== 0)
-                return response.json(users);
-            return response.status(404).json({ message: 'No users found' });
-        }).catch(console.log);
+            if (Object.keys(users).length === 0)
+                return response.status(404).json({ message: 'No users found' });
+            return response.json(users);
+        }).catch(error => {
+            console.log(error);
+            response.status(500).json({ message: 'Error', error });
+        });
     }
     dataUser(request, response) {
         const { id } = request.params;
         // TODO zod
         UserModel.getUserById(id).then((user) => {
-            if (Object.keys(user).length !== 0)
-                return response.json(user);
-            return response.status(404).json({ message: 'User not found' });
-        }).catch(console.log);
-    }
-    registerUser(request, response) {
-        const { password, email, rol } = request.body;
-        // TODO zod
-        UserModel.postUser({ password, email, rol }).then((user) => {
-            // if (Object.keys(user).length !== 0)
+            if (Object.keys(user).length === 0)
+                return response.status(404).json({ message: 'User not found' });
             return response.json(user);
-        }).catch((error) => {
+        }).catch(error => {
             console.log(error);
-            return response.status(500).json({ message: 'Error', error });
+            response.status(500).json({ message: 'Error', error });
         });
     }
-    editUser(request, response) {
+    async registerUser(request, response) {
+        const { password, email, rol } = request.body;
+        try {
+            // TODO zod
+            const userRegisted = await UserModel.postUser({ password, email, rol });
+            response.json(userRegisted);
+        }
+        catch (error) {
+            console.log(error);
+            response.status(500).json({ message: 'Error', error });
+        }
+    }
+    async editUser(request, response) {
         const { id } = request.params;
         const { name, password, email, rol } = request.body;
         // TODO zod
-        UserModel.putUser({ id, name, password, email, rol }).then((user) => {
-            if (Object.keys(user).length !== 0)
-                return response.json(user);
-            return response.status(404).json({ message: 'User not found' });
-        }).catch(console.log);
+        try {
+            const userEdited = await UserModel.putUser({ id, name, password, email, rol });
+            console.log(userEdited);
+            if (Object.keys(userEdited).length === 0) {
+                response.status(404).json({ message: 'User not found' });
+                return;
+            }
+            response.json(userEdited);
+        }
+        catch (error) {
+            console.log(error);
+            response.status(500).json({ message: 'Error', error });
+        }
     }
-    editPartialUser(request, response) {
+    async editPartialUser(request, response) {
         const { id } = request.params;
-        const user = request.body;
+        const partialUser = request.body;
         // TODO zod
-        UserModel.patchUser(id, user).then((user) => {
-            if (Object.keys(user).length !== 0)
-                return response.json(user);
-            return response.status(404).json({ message: 'User not found' });
-        }).catch(console.log);
+        try {
+            const userEditedPartial = await UserModel.patchUser(id, partialUser);
+            if (Object.keys(userEditedPartial).length === 0) {
+                response.status(404).json({ message: 'User not found' });
+                return;
+            }
+            response.json(userEditedPartial);
+        }
+        catch (error) {
+            console.log(error);
+            response.status(500).json({ message: 'Error', error });
+        }
     }
     async removeUser(request, response) {
         const { id } = request.params;

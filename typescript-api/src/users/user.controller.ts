@@ -8,8 +8,8 @@ import fs from 'node:fs/promises'
 export default class UserController {
   public dataUsersNoSensitive (_: Request, response: Response): void {
     UserModel.getNoSensitiveInfoUsers().then((users) => {
-      if (Object.keys(users).length !== 0) return response.json(users)
-      return response.status(404).json({ message: 'No users found' })
+      if (Object.keys(users).length === 0) return response.status(404).json({ message: 'No users found' })
+      return response.json(users)
     }).catch(error => {
       console.log(error)
       response.status(500).json({ message: 'Error', error })
@@ -18,8 +18,8 @@ export default class UserController {
 
   public dataUsersWithSensitive (_: Request, response: Response): void {
     UserModel.getUsers().then((users) => {
-      if (Object.keys(users).length !== 0) return response.json(users)
-      return response.status(404).json({ message: 'No users found' })
+      if (Object.keys(users).length === 0) return response.status(404).json({ message: 'No users found' })
+      return response.json(users)
     }).catch(error => {
       console.log(error)
       response.status(500).json({ message: 'Error', error })
@@ -30,8 +30,8 @@ export default class UserController {
     const { id } = request.params
     // TODO zod
     UserModel.getUserById(id).then((user) => {
-      if (Object.keys(user).length !== 0) return response.json(user)
-      return response.status(404).json({ message: 'User not found' })
+      if (Object.keys(user).length === 0) return response.status(404).json({ message: 'User not found' })
+      return response.json(user)
     }).catch(error => {
       console.log(error)
       response.status(500).json({ message: 'Error', error })
@@ -44,7 +44,7 @@ export default class UserController {
     try {
       // TODO zod
       const userRegisted = await UserModel.postUser({ password, email, rol })
-      response.json({ user: userRegisted })
+      response.json(userRegisted)
     } catch (error) {
       console.log(error)
       response.status(500).json({ message: 'Error', error })
@@ -57,7 +57,9 @@ export default class UserController {
 
     // TODO zod
     try {
-      const userEdited = UserModel.putUser({ id, name, password, email, rol })
+      const userEdited = await UserModel.putUser({ id, name, password, email, rol })
+      console.log(userEdited)
+
       if (Object.keys(userEdited).length === 0) {
         response.status(404).json({ message: 'User not found' })
         return
@@ -76,6 +78,7 @@ export default class UserController {
     // TODO zod
     try {
       const userEditedPartial = await UserModel.patchUser(id, partialUser)
+
       if (Object.keys(userEditedPartial).length === 0) {
         response.status(404).json({ message: 'User not found' })
         return
