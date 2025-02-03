@@ -4,6 +4,7 @@ import { EditUser, User } from './models/user.js'
 import CsvService from '../utils/csv.service.js'
 import PdfService from '../utils/pdf.service.js'
 import fs from 'node:fs/promises'
+import { validateIdUser, validatePartialUser, validateRegisterUser, validateUser } from './models/user.schema.js'
 
 export default class UserController {
   public dataUsersNoSensitive (_: Request, response: Response): void {
@@ -27,8 +28,14 @@ export default class UserController {
   }
 
   public dataUser (request: Request, response: Response): void {
-    const { id } = request.params
-    // TODO zod
+    const paramsValidation = validateIdUser(request.params)
+
+    if (!paramsValidation.success) {
+      response.status(400).json(paramsValidation.error)
+      return
+    }
+
+    const { id } = paramsValidation.data
     UserModel.getUserById(id).then((user) => {
       if (Object.keys(user).length === 0) return response.status(404).json({ message: 'User not found' })
       return response.json(user)
@@ -39,10 +46,15 @@ export default class UserController {
   }
 
   public async registerUser (request: Request, response: Response): Promise<void> {
-    const { password, email, rol } = request.body
+    const bodyValidation = validateRegisterUser(request.body)
+
+    if (!bodyValidation.success) {
+      response.status(400).json(bodyValidation.error)
+      return
+    }
 
     try {
-      // TODO zod
+      const { password, email, rol } = bodyValidation.data
       const userRegisted = await UserModel.postUser({ password, email, rol })
       response.json(userRegisted)
     } catch (error) {
@@ -52,11 +64,15 @@ export default class UserController {
   }
 
   public async editUser (request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-    const { name, password, email, rol } = request.body
+    const paramsBodyValidation = validateUser({ ...request.params, ...request.body })
 
-    // TODO zod
+    if (!paramsBodyValidation.success) {
+      response.status(400).json(paramsBodyValidation.error)
+      return
+    }
+
     try {
+      const { id, name, password, email, rol } = paramsBodyValidation.data
       const userEdited = await UserModel.putUser({ id, name, password, email, rol })
 
       if (Object.keys(userEdited).length === 0) {
@@ -71,11 +87,22 @@ export default class UserController {
   }
 
   public async editPartialUser (request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-    const partialUser: EditUser = request.body
+    const bodyValidation = validatePartialUser(request.body)
+    const paramsValidation = validateIdUser(request.params)
 
-    // TODO zod
+    if (!paramsValidation.success) {
+      response.status(400).json(paramsValidation.error)
+      return
+    }
+
+    if (!bodyValidation.success) {
+      response.status(400).json(bodyValidation.error)
+      return
+    }
+
     try {
+      const partialUser: EditUser = bodyValidation.data
+      const { id } = paramsValidation.data
       const userEditedPartial = await UserModel.patchUser(id, partialUser)
 
       if (Object.keys(userEditedPartial).length === 0) {
@@ -90,9 +117,15 @@ export default class UserController {
   }
 
   public async removeUser (request: Request, response: Response): Promise<void> {
-    const { id } = request.params
+    const paramsValidation = validateIdUser(request.params)
+
+    if (!paramsValidation.success) {
+      response.status(400).json(paramsValidation.error)
+      return
+    }
 
     try {
+      const { id } = paramsValidation.data
       const userDelted = await UserModel.getUserById(id)
 
       if (Object.keys(userDelted).length === 0) {
@@ -109,6 +142,8 @@ export default class UserController {
   }
 
   public async dataUsersCSV (request: Request, response: Response): Promise<void> {
+    // TODO ZOD
+
     const rows: number | undefined = request.query.limit === undefined
       ? undefined
       : Number(request.query.limit)
@@ -135,6 +170,8 @@ export default class UserController {
   }
 
   public async dataUsersPDF (request: Request, response: Response): Promise<void> {
+    // TODO ZOD
+
     const rows: number | undefined = request.query.limit === undefined
       ? undefined
       : Number(request.query.limit)

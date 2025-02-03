@@ -14,14 +14,17 @@ export const userSchema = z.object({
 export const noSensitiveInfoUserSchema = userSchema.omit({ id: true, password: true, rol: true });
 export const loginUserSchema = userSchema.pick({ email: true, password: true });
 export const registerUserSchema = userSchema.pick({ email: true, password: true, rol: true });
-export const editUserSchema = userSchema.omit({ id: true });
+export const editUserSchema = userSchema.partial().omit({ id: true });
 export const idUserSchema = userSchema.pick({ id: true });
 export function validateUser(object) {
-    return userSchema.parse(object);
+    return userSchema.safeParse(object);
+}
+export function validateRegisterUser(object) {
+    return registerUserSchema.safeParse(object);
 }
 export function validatePartialUser(object) {
-    return editUserSchema.partial().parse(object);
+    return editUserSchema.safeParse(object);
 }
 export function validateIdUser(id) {
-    return editUserSchema.partial().parse(id);
+    return idUserSchema.safeParse(id);
 }
