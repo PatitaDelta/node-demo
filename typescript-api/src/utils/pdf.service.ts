@@ -4,16 +4,16 @@ import fs from 'node:fs'
 interface CreatePDFProps<T> {
   fileName: string
   values: T[]
-  headers: string[] | undefined
-  noOfRows: number | undefined
+  headers: string[]
+  noOfRows: number
 }
 
 export default class PdfService {
   public static async createPDF<T extends { [key: string]: any }> ({
     fileName,
     values,
-    headers = Object.keys(values[0]),
-    noOfRows = values.length
+    headers,
+    noOfRows
   }: CreatePDFProps<T>
   ): Promise<string> {
     fileName = !fileName.includes('.pdf') ? fileName += '.pdf' : fileName
@@ -23,7 +23,7 @@ export default class PdfService {
     const doc = new PDFDocument({ margin: 30, size: 'A4' })
     doc.pipe(pdfFile)
 
-    // 🥺 Es inutil pero lo tengo cariño por eso no lo borro
+    // Forma de hacer una tabla sin la libreria de pdfkit-table
     // Relleno de la tabla
     // const rows: string[][] = [[]]
     // rows.shift() // borra la inicializacion del principio

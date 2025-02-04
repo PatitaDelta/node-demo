@@ -11,6 +11,12 @@ export const userSchema = z.object({
     email: z.string().email(),
     rol: rolSchema
 });
+export const userKeys = Object.keys(userSchema.shape);
+export const filesUserSchema = z.object({
+    headers: z.array(z.string().refine(val => userKeys.includes(val), { message: 'Invalid header' })),
+    limit: z.number().positive(),
+    name: z.string()
+}).partial();
 export const noSensitiveInfoUserSchema = userSchema.omit({ id: true, password: true, rol: true });
 export const loginUserSchema = userSchema.pick({ email: true, password: true });
 export const registerUserSchema = userSchema.pick({ email: true, password: true, rol: true });
@@ -27,4 +33,15 @@ export function validatePartialUser(object) {
 }
 export function validateIdUser(id) {
     return idUserSchema.safeParse(id);
+}
+export function validateFilesUser(object) {
+    return filesUserSchema.safeParse({
+        ...object,
+        limit: object.limit !== undefined
+            ? Number(object.limit)
+            : undefined,
+        headers: object.headers !== undefined
+            ? JSON.parse((object.headers))
+            : undefined
+    });
 }

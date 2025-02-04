@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { editUserSchema, idUserSchema, loginUserSchema, noSensitiveInfoUserSchema, registerUserSchema, userSchema } from './user.schema.ts'
+import { editUserSchema, idUserSchema, loginUserSchema, noSensitiveInfoUserSchema, registerUserSchema, filesUserSchema, userSchema } from './user.schema.ts'
 
 // ! Estos son los types/interfaces de tsc sin usar ZOD
 // export type Rol = 'admin' | 'client' | 'developer'
@@ -26,3 +26,4 @@ export type LoginUser = z.infer<typeof loginUserSchema>
 export type RegisterUser = z.infer<typeof registerUserSchema>
 export type EditUser = z.infer<typeof editUserSchema>
 export type IdUser = z.infer<typeof idUserSchema>
+export type FilesUser = z.infer<typeof filesUserSchema>

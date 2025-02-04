@@ -1,5 +1,5 @@
 import { SafeParseReturnType, z } from 'zod'
-import { EditUser, IdUser, RegisterUser, User } from './user.js'
+import { EditUser, FilesUser, IdUser, RegisterUser, User } from './user.js'
 
 export const rolSchema = z.union([
   z.literal('admin'),
@@ -14,6 +14,13 @@ export const userSchema = z.object({
   email: z.string().email(),
   rol: rolSchema
 })
+
+export const userKeys = Object.keys(userSchema.shape)
+export const filesUserSchema = z.object({
+  headers: z.array(z.string().refine(val => userKeys.includes(val), { message: 'Invalid header' })),
+  limit: z.number().positive(),
+  name: z.string()
+}).partial()
 
 export const noSensitiveInfoUserSchema = userSchema.omit({ id: true, password: true, rol: true })
 export const loginUserSchema = userSchema.pick({ email: true, password: true })
@@ -35,4 +42,16 @@ export function validatePartialUser (object: any): SafeParseReturnType<any, Edit
 
 export function validateIdUser (id: any): SafeParseReturnType<any, IdUser> {
   return idUserSchema.safeParse(id)
+}
+
+export function validateFilesUser (object: any): SafeParseReturnType<any, FilesUser> {
+  return filesUserSchema.safeParse({
+    ...object,
+    limit: object.limit !== undefined
+      ? Number(object.limit)
+      : undefined,
+    headers: object.headers !== undefined
+      ? JSON.parse((object.headers))
+      : undefined
+  })
 }

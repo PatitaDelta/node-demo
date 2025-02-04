@@ -2,7 +2,7 @@ import UserModel from './models/mysql/user.model.js';
 import CsvService from '../utils/csv.service.js';
 import PdfService from '../utils/pdf.service.js';
 import fs from 'node:fs/promises';
-import { validateIdUser, validatePartialUser, validateRegisterUser, validateUser } from './models/user.schema.js';
+import { userKeys, validateFilesUser, validateIdUser, validatePartialUser, validateRegisterUser, validateUser } from './models/user.schema.js';
 export default class UserController {
     dataUsersNoSensitive(_, response) {
         UserModel.getNoSensitiveInfoUsers().then((users) => {
@@ -47,7 +47,6 @@ export default class UserController {
             return;
         }
         try {
-            // TODO seprar el patch del get
             const { password, email, rol } = bodyValidation.data;
             const userRegisted = await UserModel.postUser({ password, email, rol });
             response.json(userRegisted);
@@ -127,18 +126,24 @@ export default class UserController {
         }
     }
     async dataUsersCSV(request, response) {
-        // TODO ZOD
-        const rows = request.query.limit === undefined
-            ? undefined
-            : Number(request.query.limit);
-        const headers = request.query.headers === undefined
-            ? undefined
-            : JSON.parse(request.query.headers);
+        const queryParamsValidation = validateFilesUser(request.query);
+        if (!queryParamsValidation.success) {
+            response.status(400).json(queryParamsValidation.error);
+            return;
+        }
+        const rows = queryParamsValidation.data.limit ?? 100;
+        const headers = queryParamsValidation.data.headers ?? userKeys;
+        const fileName = queryParamsValidation.data.name ?? 'users.csv';
         const fileDir = './typescript-api/static/csv/';
-        const fileName = 'users.csv';
         try {
             const users = await UserModel.getUsers(rows);
-            const filePath = await CsvService.createCSV(fileDir + fileName, users, headers, rows);
+            const filePath = await CsvService.createCSV({
+                fileName: (fileDir + fileName),
+                values: users,
+                headers: headers.length > 0 ? headers : userKeys,
+                noOfRows: rows,
+                delimiter: ','
+            });
             const file = await fs.readFile(filePath);
             response.setHeader('Content-disposition', `attachment; filename=${fileName}`);
             response.set('Content-Type', 'text/csv');
@@ -150,18 +155,23 @@ export default class UserController {
         }
     }
     async dataUsersPDF(request, response) {
-        // TODO ZOD
-        const rows = request.query.limit === undefined
-            ? undefined
-            : Number(request.query.limit);
-        const headers = request.query.headers === undefined
-            ? undefined
-            : JSON.parse(request.query.headers);
+        const queryParamsValidation = validateFilesUser(request.query);
+        if (!queryParamsValidation.success) {
+            response.status(400).json(queryParamsValidation.error);
+            return;
+        }
+        const rows = queryParamsValidation.data.limit ?? 100;
+        const headers = queryParamsValidation.data.headers ?? userKeys;
+        const fileName = queryParamsValidation.data.name ?? 'users.pdf';
         const fileDir = './typescript-api/static/pdf/';
-        const fileName = 'users.pdf';
         try {
             const users = await UserModel.getUsers(rows);
-            const filePath = await PdfService.createPDF({ fileName: (fileDir + fileName), values: users, headers, noOfRows: rows });
+            const filePath = await PdfService.createPDF({
+                fileName: (fileDir + fileName),
+                values: users,
+                headers: headers.length > 0 ? headers : userKeys,
+                noOfRows: rows
+            });
             const file = await fs.readFile(filePath);
             response.setHeader('Content-disposition', `attachment; filename=${fileName}`);
             response.set('Content-Type', 'application/pdf');
