@@ -54,7 +54,7 @@ Content-Type: application/json
 DELETE http://localhost:8080/users/fe5165a4-e23c-11ef-9af7-0242ac140002
 
 ### GET users CSV
-GET http://localhost:8080/users/csv?headers=["id","email","rol"]&limit=5
+GET http://localhost:8080/users/csv?headers=["id","email","rol"]&limit=5&name=aaa
 
 ### GET users PDF
-GET http://localhost:8080/users/pdf?headers=["id","email","rol"]&limit=5
+GET http://localhost:8080/users/pdf?headers=["id","email","rol"]&limit=5&name=aaa
