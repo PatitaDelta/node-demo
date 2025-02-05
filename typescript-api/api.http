@@ -19,7 +19,7 @@ GET http://localhost:8080/users/sensitive
 GET http://localhost:8080/users
 
 ### GET all user data
-GET http://localhost:8080/users/53d5d122-d4d1-11ef-a3fb-0242ac140002
+GET http://localhost:8080/users/bc536717-e3ad-11ef-927b-0242ac140002
 
 ### POST user
 POST http://localhost:8080/users
@@ -51,7 +51,7 @@ Content-Type: application/json
 }
 
 ### DELETE user
-DELETE http://localhost:8080/users/fe5165a4-e23c-11ef-9af7-0242ac140002
+DELETE http://localhost:8080/users/53d57b05-d4d1-11ef-a3fb-0242ac140002
 
 ### GET users CSV
 GET http://localhost:8080/users/csv?headers=["id","email","rol"]&limit=5&name=aaa

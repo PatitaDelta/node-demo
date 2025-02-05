@@ -32,7 +32,7 @@ export default class UserModel {
       INSERT INTO user (id, name, email, password, rol)
         VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)
     ;`;
-        await conexion.query(postQuery, [id, name, password, email, rol]);
+        await conexion.query(postQuery, [id, name, email, password, rol]);
         // ! El siguiente codigo es una forma de hacerlo sin usar la funcion getUserById del UserModel
         // const userPostedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
         // const userPostedData = await conexion.query(userPostedQuery, [uuid])

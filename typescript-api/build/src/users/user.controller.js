@@ -2,6 +2,7 @@ import UserModel from './models/mysql/user.model.js';
 import CsvService from '../utils/csv.service.js';
 import PdfService from '../utils/pdf.service.js';
 import fs from 'node:fs/promises';
+import crypto from 'node:crypto';
 import { userKeys, validateFilesUser, validateIdUser, validatePartialUser, validateRegisterUser, validateUser } from './models/user.schema.js';
 export default class UserController {
     dataUsersNoSensitive(_, response) {
@@ -32,7 +33,7 @@ export default class UserController {
         }
         const { id } = paramsValidation.data;
         UserModel.getUserById(id).then((user) => {
-            if (Object.keys(user).length === 0)
+            if (Object.keys(user ?? {}).length === 0)
                 return response.status(404).json({ message: 'User not found' });
             return response.json(user);
         }).catch(error => {
@@ -48,8 +49,9 @@ export default class UserController {
         }
         try {
             const { password, email, rol } = bodyValidation.data;
-            const userRegisted = await UserModel.postUser({ password, email, rol });
-            response.json(userRegisted);
+            const hashedPassword = crypto.pbkdf2Sync(password, crypto.randomBytes(12), 100000, 64, 'sha512').toString('hex');
+            const userRegisted = await UserModel.postUser({ password: hashedPassword, email, rol });
+            response.status(201).json(userRegisted);
         }
         catch (error) {
             console.log(error);
