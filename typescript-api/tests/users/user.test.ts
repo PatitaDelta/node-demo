@@ -1,13 +1,16 @@
-describe('User controller tests', () => {
-  test('', () => {
+import supertest from 'supertest'
+import { app } from '../../index'
+
+describe('User Model tests', () => {
+  const api = supertest(app)
+  test('Get users whit sensitive data', async () => {
     // Arrange-Act-Assert
-    // CsvService.createCSV()
 
     // Act
-    const a = 5
-    // const b = 'hello'
+    api.get('/users')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
 
     // Assert
-    expect(a).toBe(5)
   })
 })

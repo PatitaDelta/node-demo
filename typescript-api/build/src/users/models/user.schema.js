@@ -35,13 +35,9 @@ export function validateIdUser(id) {
     return idUserSchema.safeParse(id);
 }
 export function validateFilesUser(object) {
-    return filesUserSchema.safeParse({
-        ...object,
-        limit: object.limit !== undefined
+    return filesUserSchema.safeParse(Object.assign(Object.assign({}, object), { limit: object.limit !== undefined
             ? Number(object.limit)
-            : undefined,
-        headers: object.headers !== undefined
+            : undefined, headers: object.headers !== undefined
             ? JSON.parse((object.headers))
-            : undefined
-    });
+            : undefined }));
 }

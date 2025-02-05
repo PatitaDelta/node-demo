@@ -1,6 +1,6 @@
 import UserController from './user.controller.js';
 import { Router as asyncRouter } from '@root/async-router';
-export function createUserRouter() {
+export default function createUserRouter() {
     const userRouter = asyncRouter();
     const userController = new UserController();
     userRouter.get('/', userController.dataUsersNoSensitive);

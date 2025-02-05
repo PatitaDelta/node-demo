@@ -6,8 +6,7 @@ const conexion = await mysql.createConnection({
     user: 'guillermoll',
     password: '1234'
 });
-export default class UserModel {
-    static defaultLimit = 100;
+class UserModel {
     static async getUsers(limit = UserModel.defaultLimit) {
         const query = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user LIMIT ?;';
         const data = await conexion.query(query, [limit]);
@@ -23,7 +22,6 @@ export default class UserModel {
         const data = await conexion.query(query, [limit]);
         return data[0];
     }
-    // Crear desde 0
     static async postUser(user) {
         const { password, email, rol } = user;
         const name = email.split('@')[0];
@@ -33,14 +31,9 @@ export default class UserModel {
         VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)
     ;`;
         await conexion.query(postQuery, [id, name, email, password, rol]);
-        // ! El siguiente codigo es una forma de hacerlo sin usar la funcion getUserById del UserModel
-        // const userPostedQuery = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);'
-        // const userPostedData = await conexion.query(userPostedQuery, [uuid])
-        // return data[0] as unknown as User
         const userPosted = await this.getUserById(id);
         return userPosted;
     }
-    // Editar todo el usuario
     static async putUser(user) {
         const { id, name, password, email, rol } = user;
         const putQuery = `
@@ -51,7 +44,6 @@ export default class UserModel {
         const putData = await conexion.query(putQuery, [name, password, email, rol, id]);
         return putData[0];
     }
-    // Editar solo una propiedad
     static async patchUser(id, user) {
         const [key, value] = Object.entries(user)[0];
         const patchQuery = `
@@ -71,3 +63,5 @@ export default class UserModel {
         return userDeleteData[0];
     }
 }
+UserModel.defaultLimit = 100;
+export default UserModel;

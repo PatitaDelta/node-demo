@@ -33,7 +33,7 @@ export default class UserController {
         }
         const { id } = paramsValidation.data;
         UserModel.getUserById(id).then((user) => {
-            if (Object.keys(user ?? {}).length === 0)
+            if (Object.keys(user !== null && user !== void 0 ? user : {}).length === 0)
                 return response.status(404).json({ message: 'User not found' });
             return response.json(user);
         }).catch(error => {
@@ -59,7 +59,7 @@ export default class UserController {
         }
     }
     async editUser(request, response) {
-        const paramsBodyValidation = validateUser({ ...request.params, ...request.body });
+        const paramsBodyValidation = validateUser(Object.assign(Object.assign({}, request.params), request.body));
         if (!paramsBodyValidation.success) {
             response.status(400).json(paramsBodyValidation.error);
             return;
@@ -128,14 +128,15 @@ export default class UserController {
         }
     }
     async dataUsersCSV(request, response) {
+        var _a, _b, _c;
         const queryParamsValidation = validateFilesUser(request.query);
         if (!queryParamsValidation.success) {
             response.status(400).json(queryParamsValidation.error);
             return;
         }
-        const rows = queryParamsValidation.data.limit ?? 100;
-        const headers = queryParamsValidation.data.headers ?? userKeys;
-        const fileName = queryParamsValidation.data.name ?? 'users.csv';
+        const rows = (_a = queryParamsValidation.data.limit) !== null && _a !== void 0 ? _a : 100;
+        const headers = (_b = queryParamsValidation.data.headers) !== null && _b !== void 0 ? _b : userKeys;
+        const fileName = (_c = queryParamsValidation.data.name) !== null && _c !== void 0 ? _c : 'users.csv';
         const fileDir = './typescript-api/static/csv/';
         try {
             const users = await UserModel.getUsers(rows);
@@ -157,14 +158,15 @@ export default class UserController {
         }
     }
     async dataUsersPDF(request, response) {
+        var _a, _b, _c;
         const queryParamsValidation = validateFilesUser(request.query);
         if (!queryParamsValidation.success) {
             response.status(400).json(queryParamsValidation.error);
             return;
         }
-        const rows = queryParamsValidation.data.limit ?? 100;
-        const headers = queryParamsValidation.data.headers ?? userKeys;
-        const fileName = queryParamsValidation.data.name ?? 'users.pdf';
+        const rows = (_a = queryParamsValidation.data.limit) !== null && _a !== void 0 ? _a : 100;
+        const headers = (_b = queryParamsValidation.data.headers) !== null && _b !== void 0 ? _b : userKeys;
+        const fileName = (_c = queryParamsValidation.data.name) !== null && _c !== void 0 ? _c : 'users.pdf';
         const fileDir = './typescript-api/static/pdf/';
         try {
             const users = await UserModel.getUsers(rows);
