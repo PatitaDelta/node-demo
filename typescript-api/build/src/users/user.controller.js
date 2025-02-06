@@ -43,7 +43,7 @@ export default class UserController {
     }
     async registerUser(request, response) {
         const bodyValidation = validateRegisterUser(request.body);
-        if (!bodyValidation.success) {
+        if (bodyValidation.success === false) {
             response.status(400).json(bodyValidation.error);
             return;
         }
@@ -141,14 +141,14 @@ export default class UserController {
         try {
             const users = await UserModel.getUsers(rows);
             const filePath = await CsvService.createCSV({
-                fileName: (fileDir + fileName),
+                fileName: (fileDir + String(fileName)),
                 values: users,
                 headers: headers.length > 0 ? headers : userKeys,
                 noOfRows: rows,
                 delimiter: ','
             });
             const file = await fs.readFile(filePath);
-            response.setHeader('Content-disposition', `attachment; filename=${fileName}`);
+            response.setHeader('Content-disposition', `attachment; filename=${String(fileName)}`);
             response.set('Content-Type', 'text/csv');
             response.send(file);
         }
@@ -171,13 +171,13 @@ export default class UserController {
         try {
             const users = await UserModel.getUsers(rows);
             const filePath = await PdfService.createPDF({
-                fileName: (fileDir + fileName),
+                fileName: (fileDir + String(fileName)),
                 values: users,
                 headers: headers.length > 0 ? headers : userKeys,
                 noOfRows: rows
             });
             const file = await fs.readFile(filePath);
-            response.setHeader('Content-disposition', `attachment; filename=${fileName}`);
+            response.setHeader('Content-disposition', `attachment; filename=${String(fileName)}`);
             response.set('Content-Type', 'application/pdf');
             response.send(file);
         }
