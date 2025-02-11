@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
-import UserModel from './models/mysql/user.model.js'
-import { EditUser, User } from './models/user.js'
-import CsvService from '../utils/csv.service.js'
-import PdfService from '../utils/pdf.service.js'
+import UserModel from './models/mysql/user.model'
+import { EditUser, User } from './models/user'
+import CsvService from '../utils/csv.service'
+import PdfService from '../utils/pdf.service'
 import fs from 'node:fs/promises'
 import crypto from 'node:crypto'
-import { userKeys, validateFilesUser, validateIdUser, validatePartialUser, validateRegisterUser, validateUser } from './models/user.schema.js'
+import { userKeys, validateFilesUser, validateIdUser, validatePartialUser, validateRegisterUser, validateUser } from './models/user.schema'
 
 export default class UserController {
   public dataUsersNoSensitive (_: Request, response: Response): void {

@@ -1,5 +1,5 @@
 import { SafeParseReturnType, z } from 'zod'
-import { EditUser, FilesUser, IdUser, RegisterUser, User } from './user.js'
+import { EditUser, FilesUser, IdUser, RegisterUser, User } from './user'
 
 export const rolSchema = z.union([
   z.literal('admin'),

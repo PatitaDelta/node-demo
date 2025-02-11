@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
-import createHomeRouter from './src/home/home.routes.js'
-import createUserRouter from './src/users/user.router.js'
+import createHomeRouter from './src/home/home.routes'
+import createUserRouter from './src/users/user.router'
 
 export const app = express()
 

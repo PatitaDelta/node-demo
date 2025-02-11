@@ -1,5 +1,5 @@
 import mysql, { Connection, FieldPacket, QueryResult, ResultSetHeader } from 'mysql2/promise'
-import { EditUser, NoSensitiveInfoUser, RegisterUser, User } from '../user.js'
+import { EditUser, NoSensitiveInfoUser, RegisterUser, User } from '../user'
 
 const conexion: Connection = await mysql.createConnection({
   host: 'node-demo-database',
