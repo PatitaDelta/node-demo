@@ -8,7 +8,8 @@
     "lint:fix": "eslint . --fix",
     "tsc": "tsc",
     "build:tsc": "npm run tsc && ts-add-js-extension --dir=./typescript-api/build",
-    "dev": "node --watch ./index.js",
+	  "dev": "nodemon ./index.js",
+    "container:init": "node --watch ./typescript-api/build/index.js",
     "test": "jest"
   },
   "author": "Guillermo Lillo López",
