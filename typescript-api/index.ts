@@ -2,10 +2,11 @@ import express from 'express'
 import cors from 'cors'
 import createHomeRouter from './src/home/home.routes'
 import createUserRouter from './src/users/user.router'
+import { Server } from 'http'
 
 export const app = express()
 
-export default function initApiRest (): void {
+export default function initApiRest (PORT = process.env.PORT ?? 8080): Server {
   const homeRouter = createHomeRouter()
   const userRouter = createUserRouter()
 
@@ -16,8 +17,7 @@ export default function initApiRest (): void {
   app.use('/', homeRouter)
   app.use('/users', userRouter)
 
-  const PORT = process.env.PORT ?? 8080
-  app.listen(PORT, () => {
+  return app.listen(PORT, () => {
     console.log(`Listening in the port ${PORT}`)
   })
 }

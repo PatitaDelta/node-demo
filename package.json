@@ -58,6 +58,7 @@
   },
   "jest": {
     "verbose": true,
+    "silent": true,
     "preset": "ts-jest"
   }
 }
