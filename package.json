@@ -10,7 +10,7 @@
     "build:tsc": "npm run tsc && ts-add-js-extension --dir=./typescript-api/build",
     "dev": "nodemon ./index.js",
     "container:init": "nodemon ./index.js",
-    "test": "jest"
+    "test": "jest --detectOpenHandles"
   },
   "author": "Guillermo Lillo López",
   "license": "ISC",
