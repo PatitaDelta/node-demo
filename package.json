@@ -9,7 +9,7 @@
     "tsc": "tsc",
     "build:tsc": "npm run tsc && ts-add-js-extension --dir=./typescript-api/build",
     "dev": "nodemon ./index.js",
-    "container:init": "nodemon ./typescript-api/build/index.js",
+    "container:init": "nodemon ./index.js",
     "test": "jest"
   },
   "author": "Guillermo Lillo López",
