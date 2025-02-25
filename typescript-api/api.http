@@ -21,8 +21,8 @@ GET http://localhost:8080/users
 ### GET all user data
 GET http://localhost:8080/users/bc536717-e3ad-11ef-927b-0242ac140002
 
-### POST user
-POST http://localhost:8080/users
+### POST register user
+POST http://localhost:8080/register
 Content-Type: application/json
 
 {
@@ -31,8 +31,17 @@ Content-Type: application/json
     "rol": "admin"
 }
 
+### POST login user
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+    "password": "0987",
+    "email": "test@test.com"
+}
+
 ### PUT user
-PUT http://localhost:8080/users/df929f56-e251-11ef-9af7-0242ac140002
+PUT http://localhost:8080/users/abf810cb-f38d-11ef-a2f8-0242ac120002
 Content-Type: application/json
 
 {
@@ -43,7 +52,7 @@ Content-Type: application/json
 }
 
 ### PATCH user
-PATCH http://localhost:8080/users/df929f56-e251-11ef-9af7-0242ac140002
+PATCH http://localhost:8080/users/abf810cb-f38d-11ef-a2f8-0242ac120002
 Content-Type: application/json
 
 {
@@ -51,7 +60,7 @@ Content-Type: application/json
 }
 
 ### DELETE user
-DELETE http://localhost:8080/users/53d57b05-d4d1-11ef-a3fb-0242ac140002
+DELETE http://localhost:8080/users/abf810cb-f38d-11ef-a2f8-0242ac120002
 
 ### GET users CSV
 GET http://localhost:8080/users/csv?headers=["id","email","rol"]&limit=5&name=aaa

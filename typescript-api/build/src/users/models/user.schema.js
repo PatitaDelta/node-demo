@@ -1,4 +1,7 @@
 import { z } from 'zod';
+export const tokenSchema = z.object({
+    token: z.string()
+});
 export const rolSchema = z.union([
     z.literal('admin'),
     z.literal('client'),
@@ -25,6 +28,9 @@ export const idUserSchema = userSchema.pick({ id: true });
 export function validateRegisterUser(object) {
     return registerUserSchema.safeParse(object);
 }
+export function validateLoginUser(object) {
+    return loginUserSchema.safeParse(object);
+}
 export function validateUser(object) {
     return userSchema.safeParse(object);
 }
@@ -40,4 +46,7 @@ export function validateFilesUser(object) {
             : undefined, headers: object.headers !== undefined
             ? JSON.parse((object.headers))
             : undefined }));
+}
+export function validateToken(token) {
+    return tokenSchema.safeParse(token);
 }

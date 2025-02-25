@@ -1,5 +1,9 @@
 import { SafeParseReturnType, z } from 'zod'
-import { EditUser, FilesUser, IdUser, RegisterUser, User } from './user'
+import { EditUser, FilesUser, IdUser, LoginUser, RegisterUser, Token, User } from './user'
+
+export const tokenSchema = z.object({
+  token: z.string()
+})
 
 export const rolSchema = z.union([
   z.literal('admin'),
@@ -32,6 +36,10 @@ export function validateRegisterUser (object: any): SafeParseReturnType<any, Reg
   return registerUserSchema.safeParse(object)
 }
 
+export function validateLoginUser (object: any): SafeParseReturnType<any, LoginUser> {
+  return loginUserSchema.safeParse(object)
+}
+
 export function validateUser (object: any): SafeParseReturnType<any, User> {
   return userSchema.safeParse(object)
 }
@@ -54,4 +62,8 @@ export function validateFilesUser (object: any): SafeParseReturnType<any, FilesU
       ? JSON.parse((object.headers))
       : undefined
   })
+}
+
+export function validateToken (token: any): SafeParseReturnType<any, Token> {
+  return tokenSchema.safeParse(token)
 }

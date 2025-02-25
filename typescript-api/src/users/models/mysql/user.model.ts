@@ -16,6 +16,17 @@ export default class UserModel {
     return data[0] as unknown as User[]
   }
 
+  public static async getUserByEmail (email: string): Promise<User> {
+    const connection = await MysqlConfig.getConnection()
+
+    const query = 'SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE email = ?;'
+    const [[data]] = await connection.query(query, [email]) as [ResultSetHeader[], FieldPacket[]]
+
+    await MysqlConfig.closeConnection(connection)
+
+    return data as unknown as User
+  }
+
   public static async getUserById (id: string): Promise<User> {
     const connection = await MysqlConfig.getConnection()
 

@@ -4,8 +4,7 @@ import { EditUser, User } from './models/user'
 import CsvService from '../utils/csv.service'
 import PdfService from '../utils/pdf.service'
 import fs from 'node:fs/promises'
-import crypto from 'node:crypto'
-import { userKeys, validateFilesUser, validateIdUser, validatePartialUser, validateRegisterUser, validateUser } from './models/user.schema'
+import { userKeys, validateFilesUser, validateIdUser, validatePartialUser, validateUser } from './models/user.schema'
 
 export default class UserController {
   public dataUsersNoSensitive (_: Request, response: Response): void {
@@ -47,27 +46,6 @@ export default class UserController {
     })
   }
 
-  public async registerUser (request: Request, response: Response): Promise<void> {
-    const bodyValidation = validateRegisterUser(request.body)
-
-    if (bodyValidation.success === false) {
-      response.status(400).json(bodyValidation.error)
-      return
-    }
-
-    try {
-      const { password, email, rol } = bodyValidation.data
-
-      const hashedPassword = crypto.pbkdf2Sync(password, crypto.randomBytes(12), 100000, 64, 'sha512').toString('hex')
-
-      const userRegisted = await UserModel.postUser({ password: hashedPassword, email, rol })
-      response.status(201).json(userRegisted)
-    } catch (error) {
-      console.log(error)
-      response.status(500).json({ message: 'Error', error })
-    }
-  }
-
   public async editUser (request: Request, response: Response): Promise<void> {
     const paramsBodyValidation = validateUser({ ...request.params, ...request.body })
 
@@ -87,7 +65,7 @@ export default class UserController {
         return
       }
 
-      response.json({ user: userEdited, queryData })
+      response.json({ data: userEdited, queryData })
     } catch (error) {
       console.log(error)
       response.status(500).json({ message: 'Error', error })
@@ -119,7 +97,7 @@ export default class UserController {
         response.status(404).json({ message: 'User not found' })
         return
       }
-      response.json({ user: userEditedPartial, queryData })
+      response.json({ data: userEditedPartial, queryData })
     } catch (error) {
       console.log(error)
       response.status(500).json({ message: 'Error', error })
@@ -144,7 +122,7 @@ export default class UserController {
       }
 
       const queryData = await UserModel.deleteUser(id)
-      response.json({ user: userDelted, queryData })
+      response.json({ data: userDelted, queryData })
     } catch (error) {
       console.error(error)
       response.status(500).json({ message: 'User could not be deleted', error })

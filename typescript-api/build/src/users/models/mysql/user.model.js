@@ -7,6 +7,13 @@ class UserModel {
         await MysqlConfig.closeConnection(connection);
         return data[0];
     }
+    static async getUserByEmail(email) {
+        const connection = await MysqlConfig.getConnection();
+        const query = "SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE email = ?;";
+        const [[data]] = await connection.query(query, [email]);
+        await MysqlConfig.closeConnection(connection);
+        return data;
+    }
     static async getUserById(id) {
         const connection = await MysqlConfig.getConnection();
         const query = "SELECT BIN_TO_UUID(id) as id, name, email, password, rol FROM user WHERE id = UUID_TO_BIN(?);";

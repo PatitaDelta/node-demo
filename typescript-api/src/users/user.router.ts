@@ -12,8 +12,6 @@ export default function createUserRouter (): Router {
   userRouter.get('/pdf', userController.dataUsersPDF)
   userRouter.get('/:id', userController.dataUser)
 
-  userRouter.post('/', userController.registerUser)
-
   userRouter.put('/:id', userController.editUser)
 
   userRouter.patch('/:id', userController.editPartialUser)

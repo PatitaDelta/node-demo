@@ -8,7 +8,6 @@ export default function createUserRouter() {
     userRouter.get("/csv", userController.dataUsersCSV);
     userRouter.get("/pdf", userController.dataUsersPDF);
     userRouter.get("/:id", userController.dataUser);
-    userRouter.post("/", userController.registerUser);
     userRouter.put("/:id", userController.editUser);
     userRouter.patch("/:id", userController.editPartialUser);
     userRouter.delete("/:id", userController.removeUser);
